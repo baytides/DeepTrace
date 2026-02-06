@@ -2,7 +2,7 @@
 
 import typer
 
-from deeptrace.commands import cases
+from deeptrace.commands import cases, sources
 
 app = typer.Typer(
     name="deeptrace",
@@ -14,3 +14,4 @@ app = typer.Typer(
 app.command(name="new", rich_help_panel="Case Management")(cases.new)
 app.command(name="open", rich_help_panel="Case Management")(cases.open_case)
 app.command(name="cases", rich_help_panel="Case Management")(cases.list_cases)
+app.command(name="add-source", rich_help_panel="Data Collection")(sources.add_source)
