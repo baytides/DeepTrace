@@ -1,0 +1,71 @@
+<div class="section-header">
+  <h1 class="section-title">Files</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-file-form').style.display = document.getElementById('add-file-form').style.display === 'none' ? 'block' : 'none'">+ Upload File</button>
+</div>
+
+<div class="filter-pills">
+  <a class="pill {% if not active_type %}active{% endif %}"
+     hx-get="/files" hx-target="#main-content">All</a>
+  <a class="pill {% if active_type == 'image' %}active{% endif %}"
+     hx-get="/files?type=image" hx-target="#main-content">Images</a>
+  <a class="pill {% if active_type == 'video' %}active{% endif %}"
+     hx-get="/files?type=video" hx-target="#main-content">Video</a>
+  <a class="pill {% if active_type == 'pdf' %}active{% endif %}"
+     hx-get="/files?type=pdf" hx-target="#main-content">PDF</a>
+  <a class="pill {% if active_type == 'document' %}active{% endif %}"
+     hx-get="/files?type=document" hx-target="#main-content">Documents</a>
+</div>
+
+<div id="add-file-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/files" hx-target="#main-content" hx-swap="innerHTML" hx-encoding="multipart/form-data">
+    <div class="form-row">
+      <div class="form-group">
+        <label>File</label>
+        <div id="drop-zone" class="drop-zone">
+          <div class="drop-zone-text">Drag files here or click to browse</div>
+        </div>
+        <input type="file" id="file-input" name="file" style="display:none" required>
+        <div id="file-preview-info" style="display:none;margin-top:8px;font-size:12px;color:var(--cyan)">
+          <span id="file-selected-name"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" name="description" placeholder="Optional file description">
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Upload</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-file-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="file-gallery">
+    {% for f in files %}
+    <div class="file-card" hx-get="/files/{{ f.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+      <div class="file-thumb">
+        <img src="/files/{{ f.id }}/thumbnail" loading="lazy" alt="{{ f.filename }}">
+      </div>
+      <div class="file-card-info">
+        <div class="file-card-name" title="{{ f.filename }}">{{ f.filename }}</div>
+        <div class="file-card-meta">
+          <span class="badge">{{ f.extension }}</span>
+          <span style="color:var(--text-dim)">{{ f.file_size_display }}</span>
+          {% if f.ai_analyzed_at %}
+          <span style="color:var(--green);font-size:9px" title="AI Analyzed">&#9679;</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% if not files %}
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim)">
+      No files uploaded yet. Click "+ Upload File" to add case files.
+    </div>
+    {% endif %}
+  </div>
+</div>

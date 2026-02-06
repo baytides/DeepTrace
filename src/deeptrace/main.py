@@ -2,7 +2,7 @@
 
 import typer
 
-from deeptrace.commands import cases, evidence, hypotheses, sources, suspects, timeline
+from deeptrace.commands import cases, evidence, hypotheses, network, sources, suspects, timeline
 
 app = typer.Typer(
     name="deeptrace",
@@ -32,3 +32,15 @@ app.add_typer(
     evidence.app, name="evidence",
     help="Track evidence items.", rich_help_panel="Investigation",
 )
+app.add_typer(
+    network.app, name="network",
+    help="Network analysis and link mapping.",
+    rich_help_panel="Analysis",
+)
+
+# Dashboard command (lazy import — flask is optional)
+try:
+    from deeptrace.dashboard.server import dashboard
+    app.command(name="dashboard", rich_help_panel="Analysis")(dashboard)
+except ImportError:
+    pass

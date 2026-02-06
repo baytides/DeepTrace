@@ -1,0 +1,53 @@
+<div class="section-header">
+  <h1 class="section-title">Network Graph</h1>
+  <div class="flex gap-8">
+    <button class="btn btn-ghost" onclick="resetGraph()">Reset Zoom</button>
+    <button class="btn btn-ghost" onclick="togglePhysics()">Toggle Physics</button>
+  </div>
+</div>
+
+<div class="graph-legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-entity)"></div> Entity</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-evidence)"></div> Evidence</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-event)"></div> Event</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-hypothesis)"></div> Hypothesis</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-suspect)"></div> Suspect Pool</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--node-source)"></div> Source</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div> Attachment</div>
+</div>
+
+<div class="graph-controls">
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-entity" checked onchange="applyFilters()"> Entities
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-evidence" checked onchange="applyFilters()"> Evidence
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-event" checked onchange="applyFilters()"> Events
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-hypothesis" checked onchange="applyFilters()"> Hypotheses
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-suspect_pool" checked onchange="applyFilters()"> Suspects
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-source" checked onchange="applyFilters()"> Sources
+  </label>
+  <label class="graph-filter-label">
+    <input type="checkbox" id="filter-attachment" checked onchange="applyFilters()"> Attachments
+  </label>
+</div>
+
+<div id="network-graph" class="graph-container"></div>
+
+<script>
+  if (typeof initGraph === 'function') {
+    initGraph();
+  } else {
+    window.addEventListener('load', function() {
+      if (typeof initGraph === 'function') initGraph();
+    });
+  }
+</script>

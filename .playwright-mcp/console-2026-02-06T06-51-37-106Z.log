@@ -1,0 +1,21 @@
+[     191ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://lightning.cnn.com/launch/7be62238e4c3/97fa00444124/launch-2878c87af5e3.min.js:0
+[     584ms] [ERROR] %c TOS was NOT accepted, AdFuel will not load. background: red;color:white; @ https://www.cnn.com/media/sites/js/bundles/cnn-adfuel-body-7b0dabdfbcf2c5dfcde0acef9ef45853d2f3de7d0368d72b21ebe60fff1a5b9e.min.js:0
+[    1684ms] [WARNING] [GSI_LOGGER]: Your client application uses one of the Google One Tap prompt UI status methods that may stop functioning when FedCM becomes mandatory. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#display_moment and https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#skipped_moment @ https://accounts.google.com/gsi/client:80
+[    1685ms] [ERROR] Not signed in with the identity provider. @ https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:0
+[    2436ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://services.brightline.tv/api/v2/config/1018:0
+[    2441ms] [ERROR] FAVE -->> KeyValueStore: Error invoking key/value pair function. TypeError: window.turner_getGuid is not a function
+    at https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:9197:1086
+    at n (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:244940)
+    at e.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:245478)
+    at e.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:246385)
+    at t.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:205670)
+    at t.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:332432)
+    at t.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:322450)
+    at t.value (https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:315825)
+    at https://registry.api.cnn.io/bundles/fave/boltInstance-f57e8865/boltInstance:1:289408 @ https://registry.api.cnn.io/bundles/fave/latest-4.x/js:0
+[   17973ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://accounts.google.com/gsi/client:81
+[   31553ms] [WARNING] Could not send out analytics beacon. window.trackMetrics is not a function @ https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:8436
+[   49027ms] [WARNING] Could not send out analytics beacon. window.trackMetrics is not a function @ https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:8436
+[  507225ms] TypeError: Cannot read properties of undefined (reading 'track')
+    at c (https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:10391:1241)
+    at T (https://www.cnn.com/2026/02/05/us/timeline-nancy-guthrie-disappearance-missing-person:10391:1442)

@@ -1,0 +1,69 @@
+<div class="section-header">
+  <h1 class="section-title">ACH Matrix</h1>
+</div>
+
+{% if hypotheses and evidence %}
+<div class="panel" style="padding:12px">
+  <div class="ach-matrix">
+    <table class="ach-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;min-width:180px">Evidence \ Hypothesis</th>
+          {% for h in hypotheses %}
+          <th title="{{ h.description }}">
+            H{{ h.id }}: {{ h.description[:25] }}{% if h.description|length > 25 %}...{% endif %}
+            <br><span class="tier-{{ h.tier }}" style="font-size:10px">({{ h.tier }})</span>
+          </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in evidence %}
+        <tr>
+          <td class="ach-evidence-label" title="{{ e.name }}">
+            E{{ e.id }}: {{ e.name[:30] }}{% if e.name|length > 30 %}...{% endif %}
+            <br><span style="font-size:10px;color:var(--text-dim)">{{ e.evidence_type }}</span>
+          </td>
+          {% for h in hypotheses %}
+            {% set key = (h.id, e.id) %}
+            {% set score = matrix.get(key) %}
+            <td>
+              <div class="ach-cell {% if score %}ach-cell-{{ score.consistency }}{% endif %}"
+                   hx-get="/ach/{{ h.id }}/{{ e.id }}/edit"
+                   hx-target="closest td"
+                   hx-swap="innerHTML">
+                {% if score %}
+                  {{ score.consistency }}
+                  <span class="weight-indicator">{{ score.diagnostic_weight }}</span>
+                {% else %}
+                  <span style="color:var(--text-dim);font-size:11px">—</span>
+                {% endif %}
+              </div>
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="panel" style="margin-top:12px">
+  <div class="panel-title">Legend</div>
+  <div style="display:flex;gap:24px;font-size:13px">
+    <span><strong style="color:var(--accent-green)">C</strong> = Consistent</span>
+    <span><strong style="color:var(--accent-red)">I</strong> = Inconsistent</span>
+    <span><strong style="color:var(--text-dim)">N</strong> = Neutral</span>
+    <span style="color:var(--text-secondary)">Weight: H=High, M=Medium, L=Low</span>
+  </div>
+</div>
+
+{% elif not hypotheses %}
+<div class="panel" style="color:var(--text-dim);text-align:center;padding:30px">
+  No hypotheses yet. Add hypotheses to build the ACH matrix.
+</div>
+{% elif not evidence %}
+<div class="panel" style="color:var(--text-dim);text-align:center;padding:30px">
+  No evidence items yet. Add evidence to build the ACH matrix.
+</div>
+{% endif %}

@@ -1,0 +1,38 @@
+<div class="section-header">
+  <h1 class="section-title">Dashboard</h1>
+</div>
+
+<div class="stats-grid">
+  {% for key, label, icon in [
+    ('sources', 'Sources', '&#9670;'),
+    ('evidence', 'Evidence', '&#9650;'),
+    ('events', 'Events', '&#9632;'),
+    ('hypotheses', 'Hypotheses', '&#9674;'),
+    ('suspects', 'Suspect Pools', '&#9733;'),
+    ('entities', 'Entities', '&#9679;'),
+    ('relationships', 'Relationships', '&#8596;'),
+    ('ach_scores', 'ACH Scores', '&#9638;'),
+    ('files', 'Files', '&#9830;')
+  ] %}
+  <div class="stat-card">
+    <div class="stat-value {% if stats[key] == 0 %}stat-value-zero{% endif %}">{{ stats[key] }}</div>
+    <div class="stat-label">{{ label }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="panel">
+  <div class="panel-title">Recent Activity</div>
+  {% if recent %}
+    {% for item in recent %}
+    <div class="activity-item">
+      <span class="activity-type activity-type-{{ item.type|lower|replace(' ', '-') }}">{{ item.type }}</span>
+      <span class="activity-label">{{ item.label }}</span>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div style="color: var(--text-dim); font-family: var(--font-mono); font-size: 12px;">
+      No data yet. Start by adding sources.
+    </div>
+  {% endif %}
+</div>

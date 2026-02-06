@@ -1,0 +1,12 @@
+{% if attached_files %}
+<div style="border-top:1px solid var(--border);padding-top:12px;margin-top:16px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:8px">ATTACHED FILES</div>
+  <div class="attached-files-grid">
+    {% for af in attached_files %}
+    <img src="/files/{{ af.id }}/thumbnail" alt="{{ af.filename }}"
+         class="attached-file-thumb" title="{{ af.filename }}"
+         hx-get="/files/{{ af.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

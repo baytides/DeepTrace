@@ -1,0 +1,8 @@
+[     524ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://7d93c764-8b63-4579-ab4b-9e8666250987.edge.permutive.app/7d93c764-8b63-4579-ab4b-9e8666250987-web.js:0
+[     819ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://o87425.ingest.sentry.io/api/5839818/envelope/?sentry_key=0e467099322a7d523c8734f3d130d7dc&sentry_version=7&sentry_client=sentry.javascript.nextjs%2F7.120.3:0
+[     863ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://www.googletagmanager.com/gtm.js?id=GTM-TNFK734:0
+[     880ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://securepubads.g.doubleclick.net/tag/js/gpt.js:0
+[     880ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://sdk.mrf.io/statics/marfeel-sdk.js?id=6706:0
+[     880ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ https://experience.tinypass.com/xbuilder/experience/load?aid=XQmwsw8Mpu:0
+[     890ms] Event
+[     891ms] Event

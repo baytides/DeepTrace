@@ -1,0 +1,52 @@
+<div class="detail-header">
+  <h3>Event #{{ event.id }}</h3>
+  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+</div>
+
+<div style="margin-bottom:16px">
+  <span class="conf-{{ event.confidence }}">{{ event.confidence }} confidence</span>
+</div>
+
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">{{ event.description }}</div>
+</div>
+
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Start:</span> {{ event.timestamp_start or '—' }}
+</div>
+
+{% if event.timestamp_end %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">End:</span> {{ event.timestamp_end }}
+</div>
+{% endif %}
+
+{% if event.source_id %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Source:</span>
+  <span hx-get="/sources/{{ event.source_id }}" hx-target="#detail-panel"
+        style="color:var(--accent-blue);cursor:pointer">#{{ event.source_id }}</span>
+</div>
+{% endif %}
+
+{% if event.layer and event.layer != 'general' %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Layer:</span> {{ event.layer }}
+</div>
+{% endif %}
+
+<div style="font-size:11px;color:var(--text-dim);margin-top:16px">
+  Created: {{ event.created_at }}
+</div>
+
+{% include "partials/attached_files.html" %}
+
+<div class="mt-16 flex gap-8">
+  <button class="btn btn-danger btn-sm"
+          hx-delete="/timeline/{{ event.id }}"
+          hx-target="#main-content"
+          hx-get="/timeline"
+          hx-swap="outerHTML"
+          hx-confirm="Delete event #{{ event.id }}?">Delete</button>
+</div>

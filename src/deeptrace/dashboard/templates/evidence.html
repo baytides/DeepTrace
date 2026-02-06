@@ -1,0 +1,86 @@
+<div class="section-header">
+  <h1 class="section-title">Evidence</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-evidence-form').style.display = document.getElementById('add-evidence-form').style.display === 'none' ? 'block' : 'none'">+ Add Evidence</button>
+</div>
+
+<div class="filter-pills">
+  <a class="pill {% if not active_status %}active{% endif %}"
+     hx-get="/evidence" hx-target="#main-content">All</a>
+  {% for s in statuses %}
+  <a class="pill {% if active_status == s %}active{% endif %}"
+     hx-get="/evidence?status={{ s }}" hx-target="#main-content">{{ s }}</a>
+  {% endfor %}
+</div>
+
+<div id="add-evidence-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/evidence" hx-target="#main-content" hx-swap="innerHTML">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required placeholder="Evidence item name">
+      </div>
+      <div class="form-group" style="max-width:160px">
+        <label>Type</label>
+        <select name="evidence_type">
+          <option value="physical">Physical</option>
+          <option value="digital">Digital</option>
+          <option value="circumstantial">Circumstantial</option>
+          <option value="testimonial">Testimonial</option>
+          <option value="documentary">Documentary</option>
+        </select>
+      </div>
+      <div class="form-group" style="max-width:140px">
+        <label>Status</label>
+        <select name="status">
+          <option value="known">Known</option>
+          <option value="processed">Processed</option>
+          <option value="pending">Pending</option>
+          <option value="inconclusive">Inconclusive</option>
+          <option value="missing">Missing</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="2" placeholder="Description..."></textarea>
+      </div>
+      <div class="form-group" style="max-width:100px">
+        <label>Source ID</label>
+        <input type="number" name="source_id" placeholder="#">
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Add Evidence</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-evidence-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="id-col">#</th>
+        <th>Name</th>
+        <th class="type-col">Type</th>
+        <th style="width:110px">Status</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr hx-get="/evidence/{{ item.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+        <td class="id-col">{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td class="type-col">{{ item.evidence_type }}</td>
+        <td><span class="badge badge-{{ item.status }}">{{ item.status }}</span></td>
+        <td class="text-truncate" style="max-width:300px;color:var(--text-secondary)">{{ item.description or '' }}</td>
+      </tr>
+      {% endfor %}
+      {% if not items %}
+      <tr><td colspan="5" style="color:var(--text-dim);text-align:center;padding:20px">No evidence items.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

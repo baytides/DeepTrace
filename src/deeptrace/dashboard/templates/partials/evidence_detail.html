@@ -1,0 +1,56 @@
+<div class="detail-header">
+  <h3>Evidence #{{ item.id }}</h3>
+  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+</div>
+
+<div style="margin-bottom:16px">
+  <span class="badge badge-{{ item.status }}">{{ item.status }}</span>
+  <span style="color:var(--text-dim);font-size:12px;margin-left:8px">{{ item.evidence_type }}</span>
+</div>
+
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">NAME</div>
+  <div style="font-size:14px;font-weight:600">{{ item.name }}</div>
+</div>
+
+{% if item.description %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ item.description }}</div>
+</div>
+{% endif %}
+
+{% if item.source_id %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Source:</span>
+  <span hx-get="/sources/{{ item.source_id }}" hx-target="#detail-panel"
+        style="color:var(--accent-blue);cursor:pointer">#{{ item.source_id }}</span>
+</div>
+{% endif %}
+
+{% if item.original_testing %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Original Testing:</span> {{ item.original_testing }}
+</div>
+{% endif %}
+
+{% if item.resubmission_status and item.resubmission_status != 'not_needed' %}
+<div style="margin-bottom:8px;font-size:12px">
+  <span style="color:var(--text-dim)">Resubmission:</span> {{ item.resubmission_status }}
+</div>
+{% endif %}
+
+<div style="font-size:11px;color:var(--text-dim);margin-top:16px">
+  Created: {{ item.created_at }}
+</div>
+
+{% include "partials/attached_files.html" %}
+
+<div class="mt-16 flex gap-8">
+  <button class="btn btn-danger btn-sm"
+          hx-delete="/evidence/{{ item.id }}"
+          hx-target="#main-content"
+          hx-get="/evidence"
+          hx-swap="outerHTML"
+          hx-confirm="Delete evidence #{{ item.id }}?">Delete</button>
+</div>

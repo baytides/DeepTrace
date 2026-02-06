@@ -1,0 +1,86 @@
+<div class="section-header">
+  <h1 class="section-title">Timeline</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-event-form').style.display = document.getElementById('add-event-form').style.display === 'none' ? 'block' : 'none'">+ Add Event</button>
+</div>
+
+<div id="add-event-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/timeline" hx-target="#main-content" hx-swap="innerHTML">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="2" required placeholder="Event description..."></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Start Time</label>
+        <input type="datetime-local" name="timestamp_start">
+      </div>
+      <div class="form-group">
+        <label>End Time</label>
+        <input type="datetime-local" name="timestamp_end">
+      </div>
+      <div class="form-group" style="max-width:140px">
+        <label>Confidence</label>
+        <select name="confidence">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <div class="form-group" style="max-width:100px">
+        <label>Source ID</label>
+        <input type="number" name="source_id" placeholder="#">
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Add Event</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-event-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<!-- Timeline visualization -->
+{% if events %}
+<div class="panel">
+  <div class="panel-title">Visual Timeline</div>
+  <div class="timeline-viz">
+    <div class="timeline-line"></div>
+    {% for e in events %}
+    <div class="timeline-event" hx-get="/timeline/{{ e.id }}" hx-target="#detail-panel" hx-swap="innerHTML" style="cursor:pointer">
+      <div class="timeline-dot timeline-dot-{{ e.confidence }}"></div>
+      <div class="timeline-date">{{ e.timestamp_start or 'No date' }}</div>
+      <div class="timeline-desc">{{ e.description }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- Table view -->
+<div class="panel">
+  <div class="panel-title">All Events</div>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="id-col">#</th>
+        <th style="width:160px">Time</th>
+        <th>Description</th>
+        <th style="width:100px">Confidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in events %}
+      <tr hx-get="/timeline/{{ e.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+        <td class="id-col">{{ e.id }}</td>
+        <td style="font-size:12px;color:var(--text-dim)">{{ e.timestamp_start or '—' }}</td>
+        <td>{{ e.description }}</td>
+        <td><span class="conf-{{ e.confidence }}">{{ e.confidence }}</span></td>
+      </tr>
+      {% endfor %}
+      {% if not events %}
+      <tr><td colspan="4" style="color:var(--text-dim);text-align:center;padding:20px">No events.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

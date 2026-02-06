@@ -1,0 +1,73 @@
+<div class="section-header">
+  <h1 class="section-title">Sources</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-source-form').style.display = document.getElementById('add-source-form').style.display === 'none' ? 'block' : 'none'">+ Add Source</button>
+</div>
+
+<div id="add-source-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/sources" hx-target="#main-content" hx-swap="innerHTML">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Source Type</label>
+        <select name="source_type">
+          <option value="news">News</option>
+          <option value="official">Official</option>
+          <option value="social">Social</option>
+          <option value="document">Document</option>
+          <option value="manual" selected>Manual</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>URL</label>
+        <input type="text" name="url" placeholder="https://...">
+      </div>
+      <div class="form-group" style="max-width:120px">
+        <label>Reliability</label>
+        <input type="number" name="reliability_score" value="0.5" min="0" max="1" step="0.1">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Text / Summary</label>
+        <textarea name="raw_text" rows="3" required placeholder="Source text or summary..."></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Notes</label>
+        <input type="text" name="notes" placeholder="Optional notes">
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Add Source</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-source-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<div class="panel">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="id-col">#</th>
+        <th class="type-col">Type</th>
+        <th>Text</th>
+        <th style="width:80px">Reliability</th>
+        <th style="width:100px">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sources %}
+      <tr hx-get="/sources/{{ s.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+        <td class="id-col">{{ s.id }}</td>
+        <td class="type-col"><span class="badge">{{ s.source_type }}</span></td>
+        <td class="text-truncate" style="max-width:400px">{{ s.raw_text[:100] }}{% if s.raw_text|length > 100 %}...{% endif %}</td>
+        <td>{{ "%.1f"|format(s.reliability_score) }}</td>
+        <td style="color:var(--text-dim);font-size:12px">{{ s.ingested_at[:10] if s.ingested_at else '' }}</td>
+      </tr>
+      {% endfor %}
+      {% if not sources %}
+      <tr><td colspan="5" style="color:var(--text-dim);text-align:center;padding:20px">No sources yet.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>

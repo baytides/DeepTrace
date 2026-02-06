@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepTrace — {{ case }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+</head>
+<body hx-boost="true">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo">DeepTrace</span>
+      <span class="case-name">{{ case }}</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-stat">Case Dashboard</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar navigation -->
+    <nav class="sidebar">
+      <a href="/" class="nav-item {% if page == 'dashboard' %}active{% endif %}"
+         hx-get="/" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9632;</span> Dashboard
+      </a>
+      <a href="/sources" class="nav-item {% if page == 'sources' %}active{% endif %}"
+         hx-get="/sources" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9670;</span> Sources
+      </a>
+      <a href="/evidence" class="nav-item {% if page == 'evidence' %}active{% endif %}"
+         hx-get="/evidence" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9650;</span> Evidence
+      </a>
+      <a href="/timeline" class="nav-item {% if page == 'timeline' %}active{% endif %}"
+         hx-get="/timeline" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9644;</span> Timeline
+      </a>
+      <a href="/hypotheses" class="nav-item {% if page == 'hypotheses' %}active{% endif %}"
+         hx-get="/hypotheses" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9674;</span> Hypotheses
+      </a>
+      <a href="/suspects" class="nav-item {% if page == 'suspects' %}active{% endif %}"
+         hx-get="/suspects" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9733;</span> Suspects
+      </a>
+      <a href="/network" class="nav-item {% if page == 'network' %}active{% endif %}"
+         hx-get="/network" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9788;</span> Network
+      </a>
+      <a href="/files" class="nav-item {% if page == 'files' %}active{% endif %}"
+         hx-get="/files" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9830;</span> Files
+      </a>
+      <a href="/ach" class="nav-item {% if page == 'ach' %}active{% endif %}"
+         hx-get="/ach" hx-target="#main-content" hx-push-url="true">
+        <span class="nav-icon">&#9638;</span> ACH Matrix
+      </a>
+    </nav>
+
+    <!-- Main content area -->
+    <main id="main-content" class="main-content">
+      {% if page == 'dashboard' %}
+        {% include "dashboard.html" %}
+      {% elif page == 'sources' %}
+        {% include "sources.html" %}
+      {% elif page == 'evidence' %}
+        {% include "evidence.html" %}
+      {% elif page == 'timeline' %}
+        {% include "timeline.html" %}
+      {% elif page == 'hypotheses' %}
+        {% include "hypotheses.html" %}
+      {% elif page == 'suspects' %}
+        {% include "suspects.html" %}
+      {% elif page == 'network' %}
+        {% include "network.html" %}
+      {% elif page == 'files' %}
+        {% include "files.html" %}
+      {% elif page == 'ach' %}
+        {% include "ach.html" %}
+      {% endif %}
+    </main>
+
+    <!-- Right detail sidebar (populated by HTMX) -->
+    <aside id="detail-panel" class="detail-panel"></aside>
+  </div>
+
+  {% if page == 'network' %}
+  <script src="{{ url_for('static', filename='vis-network.min.js') }}"></script>
+  {% endif %}
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

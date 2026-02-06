@@ -1,0 +1,60 @@
+<div class="section-header">
+  <h1 class="section-title">Suspect Pools</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-pool-form').style.display = document.getElementById('add-pool-form').style.display === 'none' ? 'block' : 'none'">+ Add Pool</button>
+</div>
+
+<div id="add-pool-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/suspects" hx-target="#main-content" hx-swap="innerHTML">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" name="category" required placeholder="e.g., Physical capability to transport victim">
+      </div>
+      <div class="form-group" style="max-width:140px">
+        <label>Priority</label>
+        <select name="priority">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="2" required placeholder="Category description..."></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Supporting Evidence</label>
+        <textarea name="supporting_evidence" rows="2" placeholder="Evidence that supports this category..."></textarea>
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Add Pool</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-pool-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+{% if pools %}
+  {% for pool in pools %}
+  <div class="card" hx-get="/suspects/{{ pool.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+    <div class="card-header">
+      <span class="card-title">[{{ pool.id }}] {{ pool.category }}</span>
+      <span class="priority-label priority-label-{{ pool.priority }}">{{ pool.priority }}</span>
+    </div>
+    <div class="card-body">
+      {{ pool.description[:200] }}{% if pool.description|length > 200 %}...{% endif %}
+      {% if pool.supporting_evidence %}
+        <div class="mt-8" style="color:var(--accent-green);font-size:12px">
+          + {{ pool.supporting_evidence[:150] }}{% if pool.supporting_evidence|length > 150 %}...{% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="panel" style="color:var(--text-dim);text-align:center;padding:30px">No suspect pools yet.</div>
+{% endif %}

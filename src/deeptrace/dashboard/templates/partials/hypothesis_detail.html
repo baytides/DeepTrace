@@ -1,0 +1,57 @@
+<div class="detail-header">
+  <h3>Hypothesis #{{ hypothesis.id }}</h3>
+  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+</div>
+
+<div style="margin-bottom:16px">
+  <span class="tier-label tier-label-{{ hypothesis.tier }}">{{ hypothesis.tier|replace('-', ' ')|title }}</span>
+</div>
+
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">{{ hypothesis.description }}</div>
+</div>
+
+{% if hypothesis.supporting_evidence %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--accent-green);font-size:11px;margin-bottom:4px">SUPPORTING EVIDENCE</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.supporting_evidence }}</div>
+</div>
+{% endif %}
+
+{% if hypothesis.contradicting_evidence %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--accent-red);font-size:11px;margin-bottom:4px">CONTRADICTING EVIDENCE</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.contradicting_evidence }}</div>
+</div>
+{% endif %}
+
+{% if hypothesis.open_questions %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--accent-orange);font-size:11px;margin-bottom:4px">OPEN QUESTIONS</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.open_questions }}</div>
+</div>
+{% endif %}
+
+{% if hypothesis.key_assumptions %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">KEY ASSUMPTIONS</div>
+  <div style="font-size:13px;color:var(--text-secondary)">{{ hypothesis.key_assumptions }}</div>
+</div>
+{% endif %}
+
+<div style="font-size:11px;color:var(--text-dim);margin-top:16px">
+  Created: {{ hypothesis.created_at }}<br>
+  Updated: {{ hypothesis.updated_at }}
+</div>
+
+{% include "partials/attached_files.html" %}
+
+<div class="mt-16 flex gap-8">
+  <button class="btn btn-danger btn-sm"
+          hx-delete="/hypotheses/{{ hypothesis.id }}"
+          hx-target="#main-content"
+          hx-get="/hypotheses"
+          hx-swap="outerHTML"
+          hx-confirm="Delete hypothesis #{{ hypothesis.id }}?">Delete</button>
+</div>

@@ -1,0 +1,76 @@
+<div class="section-header">
+  <h1 class="section-title">Hypotheses</h1>
+  <button class="btn btn-primary" onclick="document.getElementById('add-hyp-form').style.display = document.getElementById('add-hyp-form').style.display === 'none' ? 'block' : 'none'">+ Add Hypothesis</button>
+</div>
+
+<div id="add-hyp-form" class="add-form-container" style="display:none">
+  <form class="add-form" hx-post="/hypotheses" hx-target="#main-content" hx-swap="innerHTML">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" rows="2" required placeholder="Hypothesis description..."></textarea>
+      </div>
+      <div class="form-group" style="max-width:160px">
+        <label>Tier</label>
+        <select name="tier">
+          {% for t in tiers %}
+          <option value="{{ t }}" {% if t == 'plausible' %}selected{% endif %}>{{ t|replace('-', ' ')|title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Supporting Evidence</label>
+        <textarea name="supporting_evidence" rows="2" placeholder="What supports this..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Contradicting Evidence</label>
+        <textarea name="contradicting_evidence" rows="2" placeholder="What contradicts this..."></textarea>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Open Questions</label>
+        <textarea name="open_questions" rows="2" placeholder="Unresolved questions..."></textarea>
+      </div>
+    </div>
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary">Add Hypothesis</button>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('add-hyp-form').style.display='none'">Cancel</button>
+    </div>
+  </form>
+</div>
+
+{% for tier in tiers %}
+  {% if by_tier[tier] %}
+  <div class="tier-group">
+    <span class="tier-group-title tier-label-{{ tier }}">{{ tier|replace('-', ' ')|title }} ({{ by_tier[tier]|length }})</span>
+
+    {% for h in by_tier[tier] %}
+    <div class="card" hx-get="/hypotheses/{{ h.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+      <div class="card-header">
+        <span class="card-title">[{{ h.id }}] {{ h.description[:80] }}{% if h.description|length > 80 %}...{% endif %}</span>
+        <span class="tier-label tier-label-{{ h.tier }}">{{ h.tier }}</span>
+      </div>
+      <div class="card-body">
+        {% if h.supporting_evidence %}
+          <div style="color:var(--accent-green);font-size:12px">+ {{ h.supporting_evidence[:120] }}{% if h.supporting_evidence|length > 120 %}...{% endif %}</div>
+        {% endif %}
+        {% if h.contradicting_evidence %}
+          <div style="color:var(--accent-red);font-size:12px">- {{ h.contradicting_evidence[:120] }}{% if h.contradicting_evidence|length > 120 %}...{% endif %}</div>
+        {% endif %}
+        {% if h.open_questions %}
+          <div style="color:var(--accent-orange);font-size:12px">? {{ h.open_questions[:120] }}{% if h.open_questions|length > 120 %}...{% endif %}</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endfor %}
+
+{% set total = by_tier.values()|map('length')|sum %}
+{% if total == 0 %}
+<div class="panel" style="color:var(--text-dim);text-align:center;padding:30px">No hypotheses yet.</div>
+{% endif %}

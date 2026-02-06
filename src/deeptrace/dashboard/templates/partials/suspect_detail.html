@@ -1,0 +1,40 @@
+<div class="detail-header">
+  <h3>Suspect Pool #{{ pool.id }}</h3>
+  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+</div>
+
+<div style="margin-bottom:16px">
+  <span class="priority-label priority-label-{{ pool.priority }}">{{ pool.priority }}</span>
+</div>
+
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">CATEGORY</div>
+  <div style="font-size:14px;font-weight:600">{{ pool.category }}</div>
+</div>
+
+<div style="margin-bottom:12px">
+  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ pool.description }}</div>
+</div>
+
+{% if pool.supporting_evidence %}
+<div style="margin-bottom:12px">
+  <div style="color:var(--accent-green);font-size:11px;margin-bottom:4px">SUPPORTING EVIDENCE</div>
+  <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ pool.supporting_evidence }}</div>
+</div>
+{% endif %}
+
+<div style="font-size:11px;color:var(--text-dim);margin-top:16px">
+  Created: {{ pool.created_at }}
+</div>
+
+{% include "partials/attached_files.html" %}
+
+<div class="mt-16 flex gap-8">
+  <button class="btn btn-danger btn-sm"
+          hx-delete="/suspects/{{ pool.id }}"
+          hx-target="#main-content"
+          hx-get="/suspects"
+          hx-swap="outerHTML"
+          hx-confirm="Delete suspect pool #{{ pool.id }}?">Delete</button>
+</div>
