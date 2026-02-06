@@ -1,21 +1,22 @@
 """Source ingestion commands."""
 
-import typer
-from typing import Optional
-from typing_extensions import Annotated
 
+from typing import Annotated
+
+import typer
+
+import deeptrace.state as _state
 from deeptrace.console import console, err_console
 from deeptrace.db import CaseDatabase
-import deeptrace.state as _state
 
 
 def add_source(
     case: Annotated[str, typer.Option(help="Case slug")],
     type: Annotated[str, typer.Option(help="Source type: news, official, social, document, manual")],
     text: Annotated[str, typer.Option(help="Source text content")],
-    url: Annotated[Optional[str], typer.Option(help="Source URL")] = None,
+    url: Annotated[str | None, typer.Option(help="Source URL")] = None,
     reliability: Annotated[float, typer.Option(help="Reliability score 0.0-1.0")] = 0.5,
-    notes: Annotated[Optional[str], typer.Option(help="Notes about this source")] = None,
+    notes: Annotated[str | None, typer.Option(help="Notes about this source")] = None,
 ) -> None:
     """Add a source to a case."""
     case_dir = _state.CASES_DIR / case

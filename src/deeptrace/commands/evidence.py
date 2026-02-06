@@ -1,14 +1,14 @@
 """Evidence chain tracker commands."""
 
-import typer
-from typing import Optional
-from typing_extensions import Annotated
 
+from typing import Annotated
+
+import typer
 from rich.table import Table
 
+import deeptrace.state as _state
 from deeptrace.console import console, err_console
 from deeptrace.db import CaseDatabase
-import deeptrace.state as _state
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -38,8 +38,8 @@ def add(
     case: Annotated[str, typer.Option(help="Case slug")] = "",
     type: Annotated[str, typer.Option(help="Evidence type: physical, digital, circumstantial")] = "physical",
     status: Annotated[str, typer.Option(help="Status: known, processed, pending, inconclusive, missing")] = "known",
-    description: Annotated[Optional[str], typer.Option(help="Description")] = None,
-    source_id: Annotated[Optional[int], typer.Option(help="Source ID to link")] = None,
+    description: Annotated[str | None, typer.Option(help="Description")] = None,
+    source_id: Annotated[int | None, typer.Option(help="Source ID to link")] = None,
 ) -> None:
     """Add an evidence item."""
     if status not in VALID_STATUSES:
@@ -96,8 +96,8 @@ def show(
 def update(
     evidence_id: Annotated[str, typer.Argument(help="Evidence item ID")],
     case: Annotated[str, typer.Option(help="Case slug")] = "",
-    status: Annotated[Optional[str], typer.Option(help="New status")] = None,
-    description: Annotated[Optional[str], typer.Option(help="Updated description")] = None,
+    status: Annotated[str | None, typer.Option(help="New status")] = None,
+    description: Annotated[str | None, typer.Option(help="Updated description")] = None,
 ) -> None:
     """Update an evidence item."""
     db = _open_case_db(case)
@@ -111,7 +111,7 @@ def update(
         params = []
         if status:
             if status not in VALID_STATUSES:
-                err_console.print(f"[bold red]Error:[/] Invalid status.")
+                err_console.print("[bold red]Error:[/] Invalid status.")
                 raise typer.Exit(1)
             updates.append("status = ?")
             params.append(status)

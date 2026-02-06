@@ -1,10 +1,11 @@
 """Case management commands."""
 
-import typer
-from typing_extensions import Annotated
+from typing import Annotated
 
-from deeptrace.console import console, err_console
+import typer
+
 import deeptrace.state as _state
+from deeptrace.console import console, err_console
 from deeptrace.state import AppState
 
 

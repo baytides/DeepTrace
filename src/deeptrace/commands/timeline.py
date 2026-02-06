@@ -1,15 +1,14 @@
 """Timeline management commands."""
 
-import typer
 from datetime import datetime
-from typing import Optional
-from typing_extensions import Annotated
+from typing import Annotated
 
+import typer
 from rich.table import Table
 
+import deeptrace.state as _state
 from deeptrace.console import console, err_console
 from deeptrace.db import CaseDatabase
-import deeptrace.state as _state
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -28,10 +27,10 @@ def _open_case_db(case: str) -> CaseDatabase:
 def add(
     description: Annotated[str, typer.Argument(help="Event description")],
     case: Annotated[str, typer.Option(help="Case slug")] = "",
-    date: Annotated[Optional[str], typer.Option(help="Date/time (ISO format)")] = None,
-    date_end: Annotated[Optional[str], typer.Option(help="End date/time for ranges")] = None,
+    date: Annotated[str | None, typer.Option(help="Date/time (ISO format)")] = None,
+    date_end: Annotated[str | None, typer.Option(help="End date/time for ranges")] = None,
     confidence: Annotated[str, typer.Option(help="Confidence: high, medium, low")] = "medium",
-    source_id: Annotated[Optional[int], typer.Option(help="Source ID to link")] = None,
+    source_id: Annotated[int | None, typer.Option(help="Source ID to link")] = None,
 ) -> None:
     """Add a new event to the timeline."""
     db = _open_case_db(case)

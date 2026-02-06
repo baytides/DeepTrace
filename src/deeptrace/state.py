@@ -3,7 +3,6 @@
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 from deeptrace.db import CaseDatabase
 
@@ -21,8 +20,8 @@ def slugify(name: str) -> str:
 @dataclass
 class AppState:
     cases_dir: Path = field(default_factory=lambda: CASES_DIR)
-    active_case_slug: Optional[str] = None
-    db: Optional[CaseDatabase] = None
+    active_case_slug: str | None = None
+    db: CaseDatabase | None = None
 
     @property
     def active_case_dir(self) -> Path:

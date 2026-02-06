@@ -1,14 +1,14 @@
 """Hypothesis tracker commands."""
 
-import typer
-from typing import Optional
-from typing_extensions import Annotated
 
+from typing import Annotated
+
+import typer
 from rich.panel import Panel
 
+import deeptrace.state as _state
 from deeptrace.console import console, err_console
 from deeptrace.db import CaseDatabase
-import deeptrace.state as _state
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -37,9 +37,9 @@ def add(
     description: Annotated[str, typer.Argument(help="Hypothesis description")],
     case: Annotated[str, typer.Option(help="Case slug")] = "",
     tier: Annotated[str, typer.Option(help="Tier: most-probable, plausible, less-likely, unlikely")] = "plausible",
-    supporting: Annotated[Optional[str], typer.Option(help="Supporting evidence")] = None,
-    contradicting: Annotated[Optional[str], typer.Option(help="Contradicting evidence")] = None,
-    questions: Annotated[Optional[str], typer.Option(help="Open questions")] = None,
+    supporting: Annotated[str | None, typer.Option(help="Supporting evidence")] = None,
+    contradicting: Annotated[str | None, typer.Option(help="Contradicting evidence")] = None,
+    questions: Annotated[str | None, typer.Option(help="Open questions")] = None,
 ) -> None:
     """Add a new hypothesis."""
     if tier not in VALID_TIERS:
@@ -105,10 +105,10 @@ def show(
 def update(
     hypothesis_id: Annotated[str, typer.Argument(help="Hypothesis ID to update")],
     case: Annotated[str, typer.Option(help="Case slug")] = "",
-    tier: Annotated[Optional[str], typer.Option(help="New tier")] = None,
-    supporting: Annotated[Optional[str], typer.Option(help="Add supporting evidence")] = None,
-    contradicting: Annotated[Optional[str], typer.Option(help="Add contradicting evidence")] = None,
-    questions: Annotated[Optional[str], typer.Option(help="Add open questions")] = None,
+    tier: Annotated[str | None, typer.Option(help="New tier")] = None,
+    supporting: Annotated[str | None, typer.Option(help="Add supporting evidence")] = None,
+    contradicting: Annotated[str | None, typer.Option(help="Add contradicting evidence")] = None,
+    questions: Annotated[str | None, typer.Option(help="Add open questions")] = None,
 ) -> None:
     """Update an existing hypothesis."""
     db = _open_case_db(case)

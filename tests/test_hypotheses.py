@@ -1,8 +1,9 @@
 """Tests for hypothesis tracker commands."""
 
 import pytest
-from deeptrace.main import app
+
 from deeptrace.db import CaseDatabase
+from deeptrace.main import app
 
 
 @pytest.fixture

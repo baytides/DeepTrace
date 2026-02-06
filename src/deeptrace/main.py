@@ -2,7 +2,7 @@
 
 import typer
 
-from deeptrace.commands import cases, sources, timeline, hypotheses, suspects, evidence
+from deeptrace.commands import cases, evidence, hypotheses, sources, suspects, timeline
 
 app = typer.Typer(
     name="deeptrace",

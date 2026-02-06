@@ -1,7 +1,8 @@
 """Tests for the database layer."""
 
+
 import pytest
-from pathlib import Path
+
 from deeptrace.db import CaseDatabase
 
 

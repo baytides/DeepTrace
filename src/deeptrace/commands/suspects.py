@@ -1,14 +1,14 @@
 """Suspect pool management commands."""
 
-import typer
-from typing import Optional
-from typing_extensions import Annotated
 
+from typing import Annotated
+
+import typer
 from rich.panel import Panel
 
+import deeptrace.state as _state
 from deeptrace.console import console, err_console
 from deeptrace.db import CaseDatabase
-import deeptrace.state as _state
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -28,7 +28,7 @@ def add(
     case: Annotated[str, typer.Option(help="Case slug")] = "",
     category: Annotated[str, typer.Option(help="Pool category name")] = "",
     description: Annotated[str, typer.Option(help="Description of this suspect category")] = "",
-    evidence: Annotated[Optional[str], typer.Option(help="Supporting evidence")] = None,
+    evidence: Annotated[str | None, typer.Option(help="Supporting evidence")] = None,
 ) -> None:
     """Add a suspect pool category."""
     db = _open_case_db(case)

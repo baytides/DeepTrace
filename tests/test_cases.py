@@ -1,6 +1,5 @@
 """Tests for case management commands."""
 
-import pytest
 from deeptrace.main import app
 
 
