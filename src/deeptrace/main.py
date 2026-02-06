@@ -2,7 +2,7 @@
 
 import typer
 
-from deeptrace.commands import cases, sources, timeline, hypotheses, suspects
+from deeptrace.commands import cases, sources, timeline, hypotheses, suspects, evidence
 
 app = typer.Typer(
     name="deeptrace",
@@ -18,3 +18,4 @@ app.command(name="add-source", rich_help_panel="Data Collection")(sources.add_so
 app.add_typer(timeline.app, name="timeline", help="Manage case timeline.", rich_help_panel="Investigation")
 app.add_typer(hypotheses.app, name="hypotheses", help="Manage tiered hypotheses.", rich_help_panel="Investigation")
 app.add_typer(suspects.app, name="suspects", help="Manage suspect pool categories.", rich_help_panel="Investigation")
+app.add_typer(evidence.app, name="evidence", help="Track evidence items.", rich_help_panel="Investigation")
