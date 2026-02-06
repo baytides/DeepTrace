@@ -1,10 +1,12 @@
 """Tests for NLP entity extraction."""
 
-import importlib.util
-
 import pytest
 
-HAS_SPACY = importlib.util.find_spec("spacy") is not None
+try:
+    import spacy  # noqa: F401
+    HAS_SPACY = True
+except (ImportError, Exception):
+    HAS_SPACY = False
 
 pytestmark = pytest.mark.skipif(not HAS_SPACY, reason="spaCy not installed")
 
