@@ -106,7 +106,7 @@ _DOMAIN_RELIABILITY: dict[str, tuple[str, str]] = {
     "newyorkpost.com": ("D", "4"),  # MBFC: MIXED (5.9), MEDIUM credibility
     "newsweek.com": ("C", "3"),   # MBFC: MOSTLY FACTUAL (2.6), HIGH credibility
     "forbes.com": ("C", "3"),     # MBFC: MOSTLY FACTUAL (2.0), HIGH credibility
-    "people.com": ("B", "3"),     # MBFC: HIGH (1.5), HIGH credibility
+    "people.com": ("C", "4"),     # MBFC: HIGH (1.5) but entertainment/celebrity focus
     "chicagotribune.com": ("C", "3"),  # Major metro daily
     "sfchronicle.com": ("C", "3"),    # Major metro daily
     "sfgate.com": ("C", "3"),         # SF Chronicle online
