@@ -1,0 +1,54 @@
+2026-02-10T04:43:39.3055828Z,Updating submodules.,f2682580-4247-423e-9ca4-e05ccb950854,0
+2026-02-10T04:43:40.4589645Z,Preparing deployment for commit id '911840297d'.,d24fefe0-46f4-44b2-ad79-dd98cd9ab5ae,0
+2026-02-10T04:43:40.8434751Z,PreDeployment: context.CleanOutputPath False,82ca0d50-3567-4600-8c0d-57b523f59611,0
+2026-02-10T04:43:41.0418355Z,PreDeployment: context.OutputPath /home/site/wwwroot,10dff070-08c4-4d00-9141-99e269829783,0
+2026-02-10T04:43:41.2061824Z,Repository path is /home/site/repository,d6d13f75-9433-40ca-b223-64f16690fbee,0
+2026-02-10T04:43:41.3517846Z,Running oryx build...,7203a983-8cb2-43c9-bd16-5e6cf2111d81,0
+	2026-02-10T04:43:41.3573654Z,Command: oryx build /home/site/repository -o /home/site/wwwroot --platform python --platform-version 3.11 -p virtualenv_name=antenv --log-file /tmp/build-debug.log  -i /tmp/8de685ef6991e84 --compress-destination-dir | tee /tmp/oryx-build.log,,0
+	2026-02-10T04:43:44.2324775Z,Operation performed by Microsoft Oryx&comma; https://github.com/Microsoft/Oryx,,0
+	2026-02-10T04:43:44.2797906Z,You can report issues at https://github.com/Microsoft/Oryx/issues,,0
+	2026-02-10T04:43:44.3085470Z,,,0
+	2026-02-10T04:43:44.3275863Z,Oryx Version: 0.2.20260115.4+48f1ac3ece84aa5cb4bc058527a29842156d553c&comma; Commit: 48f1ac3ece84aa5cb4bc058527a29842156d553c&comma; ReleaseTagName: 20260115.4,,0
+	2026-02-10T04:43:44.3686993Z,,,0
+	2026-02-10T04:43:44.3883388Z,Build Operation ID: 3f7630918741e8d7,,0
+	2026-02-10T04:43:44.4150523Z,Repository Commit : 911840297d153ae09a738e1a3fb63e4847b5bf51,,0
+	2026-02-10T04:43:44.4446114Z,OS Type           : bullseye,,0
+	2026-02-10T04:43:44.4667435Z,Image Type        : githubactions,,0
+	2026-02-10T04:43:44.4928566Z,,,0
+	2026-02-10T04:43:44.5283053Z,Primary SDK Storage URL: https://oryx-cdn.microsoft.io,,0
+	2026-02-10T04:43:44.5431891Z,Backup SDK Storage URL: ,,0
+	2026-02-10T04:43:44.5584222Z,Detecting platforms...,,0
+	2026-02-10T04:43:44.5751663Z,External SDK provider is enabled.,,0
+	2026-02-10T04:43:44.6456146Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:43:46.5676171Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:43:47.2589256Z,Detected following platforms:,,0
+	2026-02-10T04:43:47.2832395Z,  python: 3.11.14,,0
+	2026-02-10T04:43:47.4091091Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:43:53.5355151Z,Version '3.11.14' of platform 'python' is not installed. Generating script to install it...,,0
+	2026-02-10T04:43:55.1492661Z,,,0
+	2026-02-10T04:43:55.3397844Z,Using intermediate directory '/tmp/8de685ef6991e84'.,,0
+	2026-02-10T04:43:55.4179868Z,,,0
+	2026-02-10T04:43:55.4451009Z,Copying files to the intermediate directory...,,0
+	2026-02-10T04:43:59.7907568Z,Copying files to intermediate directory done in 4 sec(s).,,0
+	2026-02-10T04:43:59.8982379Z,,,0
+	2026-02-10T04:44:00.0261496Z,Source directory     : /tmp/8de685ef6991e84,,0
+	2026-02-10T04:44:00.1308450Z,Destination directory: /home/site/wwwroot,,0
+	2026-02-10T04:44:00.1994924Z,,,0
+	2026-02-10T04:44:00.2235780Z,Installing platform...,,0
+	2026-02-10T04:44:00.2587760Z,,,0
+	2026-02-10T04:44:00.2697654Z,Downloading and extracting 'python' version '3.11.14' to '/tmp/oryx/platforms/python/3.11.14'...,,0
+	2026-02-10T04:44:00.2974403Z,Detected image debian flavor: bullseye.,,0
+	2026-02-10T04:44:00.3198337Z,Skipping download of python version 3.11.14 as it is available in external sdk provider cache...,,0
+	2026-02-10T04:44:00.3706713Z,Extracting contents...,,0
+	2026-02-10T04:44:58.2637535Z,Successfully extracted python version 3.11.14 from external sdk provider cache...,,0
+	2026-02-10T04:44:58.4118160Z,,,0
+	2026-02-10T04:44:58.4378159Z,image detector file exists&comma; platform is python..,,0
+	2026-02-10T04:44:58.4600014Z,OS detector file exists&comma; OS is bullseye..,,0
+	2026-02-10T04:44:58.5165035Z,Platform installation done in 59 sec(s).,,0
+	2026-02-10T04:44:59.3273746Z,Running build script snippets...,,0
+	2026-02-10T04:44:59.3816076Z,Python Version: /tmp/oryx/platforms/python/3.11.14/bin/python3.11,,0
+	2026-02-10T04:44:59.4543585Z,Creating directory for command manifest file if it does not exist,,0
+	2026-02-10T04:44:59.5796557Z,Removing existing manifest file,,0
+	2026-02-10T04:44:59.6872452Z,Python Virtual Environment: antenv,,0
+	2026-02-10T04:44:59.7469826Z,Creating virtual environment...,,0
+	2026-02-10T04:44:59.8147994Z,Executing: /tmp/oryx/platforms/python/3.11.14/bin/python3.11 -m venv antenv --copies,,0

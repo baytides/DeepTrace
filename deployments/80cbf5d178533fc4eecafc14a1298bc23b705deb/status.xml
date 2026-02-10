@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deployment>
+  <id>80cbf5d178533fc4eecafc14a1298bc23b705deb</id>
+  <author>bayareadiscounts</author>
+  <deployer>GitHub</deployer>
+  <authorEmail>246928973+sfbaytides@users.noreply.github.com</authorEmail>
+  <message>Clean up deployment docs and finalize Cloudflare Pages setup
+    
+    - Removed temporary troubleshooting files
+    - Created single DEPLOYMENT.md with working configuration
+    - Project now uses CLI deployment via wrangler pages deploy
+    - Carl AI fully integrated and configured
+    - Custom domain: deeptrace.projectcivitas.com</message>
+  <progress></progress>
+  <status>Failed</status>
+  <statusText>Deployment has been stopped due to SCM container restart. The restart can happen due to a management operation on site. Do not perform a management operation and a deployment operation in quick succession. Adding a small delay can help avoid any conflicts.</statusText>
+  <lastSuccessEndTime />
+  <receivedTime>2026-02-10T04:23:39.8546884Z</receivedTime>
+  <startTime>2026-02-10T04:23:41.2964522Z</startTime>
+  <endTime>2026-02-10T04:41:17.9087538Z</endTime>
+  <complete>True</complete>
+  <is_temp>False</is_temp>
+  <is_readonly>False</is_readonly>
+  <containerId>67a090d524b7</containerId>
+  <buildSummary />
+</deployment>

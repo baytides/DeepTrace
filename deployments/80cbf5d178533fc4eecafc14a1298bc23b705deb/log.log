@@ -1,0 +1,230 @@
+2026-02-10T04:23:40.1068531Z,Updating submodules.,ec11a7d8-e137-436d-bedd-ce067a4f73b4,0
+2026-02-10T04:23:41.2521340Z,Preparing deployment for commit id '80cbf5d178'.,533d10bd-5c16-44b9-a4b8-f3c01f585455,0
+2026-02-10T04:23:41.5330463Z,PreDeployment: context.CleanOutputPath False,a39d9a92-2cbd-4a20-bb74-49edb361dee2,0
+2026-02-10T04:23:41.6633630Z,PreDeployment: context.OutputPath /home/site/wwwroot,73186eb0-923f-45c7-b66c-a255a44ac885,0
+2026-02-10T04:23:41.8292099Z,Repository path is /home/site/repository,73669aad-f9f6-4dcd-abf8-da52825cbd90,0
+2026-02-10T04:23:41.9703153Z,Running oryx build...,790881f0-86ab-409f-9f2b-4ed99a914254,0
+	2026-02-10T04:23:41.9780914Z,Command: oryx build /home/site/repository -o /home/site/wwwroot --platform python --platform-version 3.11 -p virtualenv_name=antenv --log-file /tmp/build-debug.log  -i /tmp/8de685c2bc5df40 --compress-destination-dir | tee /tmp/oryx-build.log,,0
+	2026-02-10T04:23:44.2753235Z,Operation performed by Microsoft Oryx&comma; https://github.com/Microsoft/Oryx,,0
+	2026-02-10T04:23:44.3271372Z,You can report issues at https://github.com/Microsoft/Oryx/issues,,0
+	2026-02-10T04:23:44.3482291Z,,,0
+	2026-02-10T04:23:44.4179591Z,Oryx Version: 0.2.20260115.4+48f1ac3ece84aa5cb4bc058527a29842156d553c&comma; Commit: 48f1ac3ece84aa5cb4bc058527a29842156d553c&comma; ReleaseTagName: 20260115.4,,0
+	2026-02-10T04:23:44.4296681Z,,,0
+	2026-02-10T04:23:44.4847106Z,Build Operation ID: 6bedcdffd251d83d,,0
+	2026-02-10T04:23:44.5035273Z,Repository Commit : 80cbf5d178533fc4eecafc14a1298bc23b705deb,,0
+	2026-02-10T04:23:44.5263994Z,OS Type           : bullseye,,0
+	2026-02-10T04:23:44.5456793Z,Image Type        : githubactions,,0
+	2026-02-10T04:23:44.6288296Z,,,0
+	2026-02-10T04:23:44.6591166Z,Primary SDK Storage URL: https://oryx-cdn.microsoft.io,,0
+	2026-02-10T04:23:44.6725760Z,Backup SDK Storage URL: ,,0
+	2026-02-10T04:23:44.6878898Z,Detecting platforms...,,0
+	2026-02-10T04:23:44.7070178Z,External SDK provider is enabled.,,0
+	2026-02-10T04:23:44.7573526Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:23:45.5891157Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:23:45.8313691Z,Successfully requested blob for platform python&comma; blobName defaultVersion.bullseye.txt&comma; available at /var/OryxSdks/python/defaultVersion.bullseye.txt,,0
+	2026-02-10T04:23:46.6120596Z,Detected following platforms:,,0
+	2026-02-10T04:23:46.6379412Z,  python: 3.11.14,,0
+	2026-02-10T04:23:46.6626966Z,Requesting metadata for platform python from external SDK provider,,0
+	2026-02-10T04:23:52.9488831Z,Successfully requested blob for platform python&comma; blobName python-bullseye-3.11.14.tar.gz&comma; available at /var/OryxSdks/python/python-bullseye-3.11.14.tar.gz,,0
+	2026-02-10T04:23:57.4276245Z,Version '3.11.14' of platform 'python' is not installed. Generating script to install it...,,0
+	2026-02-10T04:24:00.0888104Z,,,0
+	2026-02-10T04:24:00.5236890Z,Using intermediate directory '/tmp/8de685c2bc5df40'.,,0
+	2026-02-10T04:24:00.6305531Z,,,0
+	2026-02-10T04:24:00.6579354Z,Copying files to the intermediate directory...,,0
+	2026-02-10T04:24:01.0291486Z,Copying files to intermediate directory done in 1 sec(s).,,0
+	2026-02-10T04:24:01.0941107Z,,,0
+	2026-02-10T04:24:01.1241485Z,Source directory     : /tmp/8de685c2bc5df40,,0
+	2026-02-10T04:24:01.1457008Z,Destination directory: /home/site/wwwroot,,0
+	2026-02-10T04:24:01.1654811Z,,,0
+	2026-02-10T04:24:01.1917385Z,Installing platform...,,0
+	2026-02-10T04:24:01.2320341Z,,,0
+	2026-02-10T04:24:01.5518717Z,Downloading and extracting 'python' version '3.11.14' to '/tmp/oryx/platforms/python/3.11.14'...,,0
+	2026-02-10T04:24:01.5922484Z,Detected image debian flavor: bullseye.,,0
+	2026-02-10T04:24:01.6502243Z,Skipping download of python version 3.11.14 as it is available in external sdk provider cache...,,0
+	2026-02-10T04:24:01.6987594Z,Extracting contents...,,0
+	2026-02-10T04:24:30.8019867Z,Successfully extracted python version 3.11.14 from external sdk provider cache...,,0
+	2026-02-10T04:24:30.9430712Z,,,0
+	2026-02-10T04:24:30.9809249Z,image detector file exists&comma; platform is python..,,0
+	2026-02-10T04:24:31.0113675Z,OS detector file exists&comma; OS is bullseye..,,0
+	2026-02-10T04:24:31.0494923Z,Platform installation done in 29 sec(s).,,0
+	2026-02-10T04:24:31.6791135Z,Running build script snippets...,,0
+	2026-02-10T04:24:31.6990741Z,Python Version: /tmp/oryx/platforms/python/3.11.14/bin/python3.11,,0
+	2026-02-10T04:24:31.7095901Z,Creating directory for command manifest file if it does not exist,,0
+	2026-02-10T04:24:31.7594496Z,Removing existing manifest file,,0
+	2026-02-10T04:24:31.8341446Z,Python Virtual Environment: antenv,,0
+	2026-02-10T04:24:31.9155051Z,Creating virtual environment...,,0
+	2026-02-10T04:24:31.9447421Z,Executing: /tmp/oryx/platforms/python/3.11.14/bin/python3.11 -m venv antenv --copies,,0
+	2026-02-10T04:24:55.1625204Z,Activating virtual environment...,,0
+	2026-02-10T04:24:55.2133777Z,Running pip install poetry...,,0
+	2026-02-10T04:24:58.2107396Z,Collecting poetry,,0
+	2026-02-10T04:24:58.3404587Z,  Downloading poetry-2.3.2-py3-none-any.whl.metadata (7.2 kB),,0
+	2026-02-10T04:24:58.7941017Z,Collecting build<2.0.0&comma;>=1.2.1 (from poetry),,0
+	2026-02-10T04:24:58.8177005Z,  Downloading build-1.4.0-py3-none-any.whl.metadata (5.8 kB),,0
+	2026-02-10T04:24:59.7149247Z,Collecting cachecontrol<0.15.0&comma;>=0.14.0 (from cachecontrol[filecache]<0.15.0&comma;>=0.14.0->poetry),,0
+	2026-02-10T04:24:59.8384876Z,  Downloading cachecontrol-0.14.4-py3-none-any.whl.metadata (3.1 kB),,0
+	2026-02-10T04:24:59.9198429Z,Collecting cleo<3.0.0&comma;>=2.1.0 (from poetry),,0
+	2026-02-10T04:25:00.0359788Z,  Downloading cleo-2.1.0-py3-none-any.whl.metadata (12 kB),,0
+	2026-02-10T04:25:01.4770977Z,Collecting dulwich<2&comma;>=0.25.0 (from poetry),,0
+	2026-02-10T04:25:01.5164665Z,  Downloading dulwich-1.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (5.4 kB),,0
+	2026-02-10T04:25:02.0124313Z,Collecting fastjsonschema<3.0.0&comma;>=2.18.0 (from poetry),,0
+	2026-02-10T04:25:02.0798640Z,  Downloading fastjsonschema-2.21.2-py3-none-any.whl.metadata (2.3 kB),,0
+	2026-02-10T04:25:02.8678817Z,Collecting findpython<0.8.0&comma;>=0.6.2 (from poetry),,0
+	2026-02-10T04:25:02.9244032Z,  Downloading findpython-0.7.1-py3-none-any.whl.metadata (5.4 kB),,0
+	2026-02-10T04:25:03.6820571Z,Collecting installer<0.8.0&comma;>=0.7.0 (from poetry),,0
+	2026-02-10T04:25:03.9579068Z,  Downloading installer-0.7.0-py3-none-any.whl.metadata (936 bytes),,0
+	2026-02-10T04:25:04.7897374Z,Collecting keyring<26.0.0&comma;>=25.1.0 (from poetry),,0
+	2026-02-10T04:25:04.8499623Z,  Downloading keyring-25.7.0-py3-none-any.whl.metadata (21 kB),,0
+	2026-02-10T04:25:05.4840870Z,Collecting packaging>=24.2 (from poetry),,0
+	2026-02-10T04:25:05.5896693Z,  Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB),,0
+	2026-02-10T04:25:06.1183085Z,Collecting pbs-installer>=2025.6.10 (from pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:06.1589030Z,  Downloading pbs_installer-2026.2.3-py3-none-any.whl.metadata (990 bytes),,0
+	2026-02-10T04:25:06.5892966Z,Collecting pkginfo<2.0&comma;>=1.12 (from poetry),,0
+	2026-02-10T04:25:06.6273473Z,  Downloading pkginfo-1.12.1.2-py3-none-any.whl.metadata (13 kB),,0
+	2026-02-10T04:25:07.0436286Z,Collecting platformdirs<5&comma;>=3.0.0 (from poetry),,0
+	2026-02-10T04:25:07.0841927Z,  Downloading platformdirs-4.5.1-py3-none-any.whl.metadata (12 kB),,0
+	2026-02-10T04:25:07.5451774Z,Collecting poetry-core==2.3.1 (from poetry),,0
+	2026-02-10T04:25:07.5658987Z,  Downloading poetry_core-2.3.1-py3-none-any.whl.metadata (3.8 kB),,0
+	2026-02-10T04:25:07.8910661Z,Collecting pyproject-hooks<2.0.0&comma;>=1.0.0 (from poetry),,0
+	2026-02-10T04:25:07.9406037Z,  Downloading pyproject_hooks-1.2.0-py3-none-any.whl.metadata (1.3 kB),,0
+	2026-02-10T04:25:08.3902226Z,Collecting requests<3.0&comma;>=2.26 (from poetry),,0
+	2026-02-10T04:25:08.4352074Z,  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB),,0
+	2026-02-10T04:25:08.7676085Z,Collecting requests-toolbelt<2.0.0&comma;>=1.0.0 (from poetry),,0
+	2026-02-10T04:25:08.8075133Z,  Downloading requests_toolbelt-1.0.0-py2.py3-none-any.whl.metadata (14 kB),,0
+	2026-02-10T04:25:09.1395521Z,Collecting shellingham<2.0&comma;>=1.5 (from poetry),,0
+	2026-02-10T04:25:09.1693050Z,  Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB),,0
+	2026-02-10T04:25:09.5402640Z,Collecting tomlkit<1.0.0&comma;>=0.11.4 (from poetry),,0
+	2026-02-10T04:25:09.5709626Z,  Downloading tomlkit-0.14.0-py3-none-any.whl.metadata (2.8 kB),,0
+	2026-02-10T04:25:09.9590327Z,Collecting trove-classifiers>=2022.5.19 (from poetry),,0
+	2026-02-10T04:25:09.9806559Z,  Downloading trove_classifiers-2026.1.14.14-py3-none-any.whl.metadata (2.4 kB),,0
+	2026-02-10T04:25:10.7024975Z,Collecting virtualenv>=20.26.6 (from poetry),,0
+	2026-02-10T04:25:10.7616050Z,  Downloading virtualenv-20.36.1-py3-none-any.whl.metadata (4.7 kB),,0
+	2026-02-10T04:25:11.7814465Z,Collecting msgpack<2.0.0&comma;>=0.5.2 (from cachecontrol<0.15.0&comma;>=0.14.0->cachecontrol[filecache]<0.15.0&comma;>=0.14.0->poetry),,0
+	2026-02-10T04:25:11.8815816Z,  Downloading msgpack-1.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.1 kB),,0
+	2026-02-10T04:25:12.3138589Z,Collecting filelock>=3.8.0 (from cachecontrol[filecache]<0.15.0&comma;>=0.14.0->poetry),,0
+	2026-02-10T04:25:12.3737329Z,  Downloading filelock-3.20.3-py3-none-any.whl.metadata (2.1 kB),,0
+	2026-02-10T04:25:12.6688042Z,Collecting crashtest<0.5.0&comma;>=0.4.1 (from cleo<3.0.0&comma;>=2.1.0->poetry),,0
+	2026-02-10T04:25:12.7075136Z,  Downloading crashtest-0.4.1-py3-none-any.whl.metadata (1.1 kB),,0
+	2026-02-10T04:25:16.1304444Z,Collecting rapidfuzz<4.0.0&comma;>=3.0.0 (from cleo<3.0.0&comma;>=2.1.0->poetry),,0
+	2026-02-10T04:25:16.1782317Z,  Downloading rapidfuzz-3.14.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (12 kB),,0
+	2026-02-10T04:25:16.6930264Z,Collecting urllib3>=2.2.2 (from dulwich<2&comma;>=0.25.0->poetry),,0
+	2026-02-10T04:25:16.7133414Z,  Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB),,0
+	2026-02-10T04:25:16.9872435Z,Collecting typing_extensions>=4.6.0 (from dulwich<2&comma;>=0.25.0->poetry),,0
+	2026-02-10T04:25:17.0163438Z,  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB),,0
+	2026-02-10T04:25:17.6615335Z,Collecting SecretStorage>=3.2 (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:17.7285550Z,  Downloading secretstorage-3.5.0-py3-none-any.whl.metadata (4.0 kB),,0
+	2026-02-10T04:25:18.1690676Z,Collecting jeepney>=0.4.2 (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:18.2075816Z,  Downloading jeepney-0.9.0-py3-none-any.whl.metadata (1.2 kB),,0
+	2026-02-10T04:25:18.9079278Z,Collecting importlib_metadata>=4.11.4 (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:18.9550363Z,  Downloading importlib_metadata-8.7.1-py3-none-any.whl.metadata (4.7 kB),,0
+	2026-02-10T04:25:19.4084805Z,Collecting jaraco.classes (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:19.4838167Z,  Downloading jaraco.classes-3.4.0-py3-none-any.whl.metadata (2.6 kB),,0
+	2026-02-10T04:25:19.8328165Z,Collecting jaraco.functools (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:19.8498996Z,  Downloading jaraco_functools-4.4.0-py3-none-any.whl.metadata (3.0 kB),,0
+	2026-02-10T04:25:20.1167774Z,Collecting jaraco.context (from keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:20.1542717Z,  Downloading jaraco_context-6.1.0-py3-none-any.whl.metadata (4.3 kB),,0
+	2026-02-10T04:25:20.5533618Z,Collecting httpx<1&comma;>=0.27.0 (from pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:20.6007748Z,  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB),,0
+	2026-02-10T04:25:21.1811425Z,Collecting zstandard>=0.21.0 (from pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:21.2135513Z,  Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB),,0
+	2026-02-10T04:25:21.8629838Z,Collecting charset_normalizer<4&comma;>=2 (from requests<3.0&comma;>=2.26->poetry),,0
+	2026-02-10T04:25:21.8892358Z,  Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB),,0
+	2026-02-10T04:25:22.2117986Z,Collecting idna<4&comma;>=2.5 (from requests<3.0&comma;>=2.26->poetry),,0
+	2026-02-10T04:25:22.2505147Z,  Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB),,0
+	2026-02-10T04:25:22.6085761Z,Collecting certifi>=2017.4.17 (from requests<3.0&comma;>=2.26->poetry),,0
+	2026-02-10T04:25:22.6401573Z,  Downloading certifi-2026.1.4-py3-none-any.whl.metadata (2.5 kB),,0
+	2026-02-10T04:25:23.0588487Z,Collecting distlib<1&comma;>=0.3.7 (from virtualenv>=20.26.6->poetry),,0
+	2026-02-10T04:25:23.0896406Z,  Downloading distlib-0.4.0-py2.py3-none-any.whl.metadata (5.2 kB),,0
+	2026-02-10T04:25:23.5980851Z,Collecting anyio (from httpx<1&comma;>=0.27.0->pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:23.6261540Z,  Downloading anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB),,0
+	2026-02-10T04:25:23.9471096Z,Collecting httpcore==1.* (from httpx<1&comma;>=0.27.0->pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:23.9881892Z,  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB),,0
+	2026-02-10T04:25:24.6240393Z,Collecting h11>=0.16 (from httpcore==1.*->httpx<1&comma;>=0.27.0->pbs-installer[download&comma;install]>=2025.6.10->poetry),,0
+	2026-02-10T04:25:24.6550898Z,  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB),,0
+	2026-02-10T04:25:25.3126508Z,Collecting zipp>=3.20 (from importlib_metadata>=4.11.4->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:25.3187785Z,  Downloading zipp-3.23.0-py3-none-any.whl.metadata (3.6 kB),,0
+	2026-02-10T04:25:26.9423789Z,Collecting cryptography>=2.0 (from SecretStorage>=3.2->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:26.9814913Z,  Downloading cryptography-46.0.4-cp311-abi3-manylinux_2_28_x86_64.whl.metadata (5.7 kB),,0
+	2026-02-10T04:25:27.5032248Z,Collecting more-itertools (from jaraco.classes->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:27.5343452Z,  Downloading more_itertools-10.8.0-py3-none-any.whl.metadata (39 kB),,0
+	2026-02-10T04:25:27.8593934Z,Collecting backports.tarfile (from jaraco.context->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:27.8855764Z,  Downloading backports.tarfile-1.2.0-py3-none-any.whl.metadata (2.0 kB),,0
+	2026-02-10T04:25:28.7426521Z,Collecting cffi>=2.0.0 (from cryptography>=2.0->SecretStorage>=3.2->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:28.7917804Z,  Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB),,0
+	2026-02-10T04:25:29.3880868Z,Collecting pycparser (from cffi>=2.0.0->cryptography>=2.0->SecretStorage>=3.2->keyring<26.0.0&comma;>=25.1.0->poetry),,0
+	2026-02-10T04:25:29.4154701Z,  Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB),,0
+	2026-02-10T04:25:29.8260270Z,Downloading poetry-2.3.2-py3-none-any.whl (287 kB),,0
+	2026-02-10T04:25:29.9660694Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 287.8/287.8 kB 2.3 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:30.0255140Z,Downloading poetry_core-2.3.1-py3-none-any.whl (340 kB),,0
+	2026-02-10T04:25:30.2492186Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 340.9/340.9 kB 1.4 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:30.3158009Z,Downloading build-1.4.0-py3-none-any.whl (24 kB),,0
+	2026-02-10T04:25:30.5704539Z,Downloading cachecontrol-0.14.4-py3-none-any.whl (22 kB),,0
+	2026-02-10T04:25:30.7574378Z,Downloading cleo-2.1.0-py3-none-any.whl (78 kB),,0
+	2026-02-10T04:25:30.9007628Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.7/78.7 kB 510.0 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:30.9393752Z,Downloading dulwich-1.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (1.4 MB),,0
+	2026-02-10T04:25:31.1834427Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 6.0 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:31.2122270Z,Downloading fastjsonschema-2.21.2-py3-none-any.whl (24 kB),,0
+	2026-02-10T04:25:31.3445718Z,Downloading findpython-0.7.1-py3-none-any.whl (21 kB),,0
+	2026-02-10T04:25:31.4868721Z,Downloading installer-0.7.0-py3-none-any.whl (453 kB),,0
+	2026-02-10T04:25:31.6365355Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 453.8/453.8 kB 3.2 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:31.6578323Z,Downloading keyring-25.7.0-py3-none-any.whl (39 kB),,0
+	2026-02-10T04:25:31.8435518Z,Downloading packaging-26.0-py3-none-any.whl (74 kB),,0
+	2026-02-10T04:25:32.0581382Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.4/74.4 kB 470.6 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:32.2142730Z,Downloading pbs_installer-2026.2.3-py3-none-any.whl (70 kB),,0
+	2026-02-10T04:25:32.4398353Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 70.1/70.1 kB 210.8 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:32.4783062Z,Downloading pkginfo-1.12.1.2-py3-none-any.whl (32 kB),,0
+	2026-02-10T04:25:32.7201642Z,Downloading platformdirs-4.5.1-py3-none-any.whl (18 kB),,0
+	2026-02-10T04:25:32.8737347Z,Downloading pyproject_hooks-1.2.0-py3-none-any.whl (10 kB),,0
+	2026-02-10T04:25:32.9885725Z,Downloading requests-2.32.5-py3-none-any.whl (64 kB),,0
+	2026-02-10T04:25:33.1249344Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 443.9 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:33.1507257Z,Downloading requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB),,0
+	2026-02-10T04:25:33.2935418Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.5/54.5 kB 354.5 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:33.3325076Z,Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB),,0
+	2026-02-10T04:25:33.4876021Z,Downloading tomlkit-0.14.0-py3-none-any.whl (39 kB),,0
+	2026-02-10T04:25:33.6194254Z,Downloading trove_classifiers-2026.1.14.14-py3-none-any.whl (14 kB),,0
+	2026-02-10T04:25:33.7706435Z,Downloading virtualenv-20.36.1-py3-none-any.whl (6.0 MB),,0
+	2026-02-10T04:25:34.3400965Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.0/6.0 MB 11.2 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:34.3772026Z,Downloading certifi-2026.1.4-py3-none-any.whl (152 kB),,0
+	2026-02-10T04:25:34.5291652Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 152.9/152.9 kB 1.1 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:34.5505780Z,Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB),,0
+	2026-02-10T04:25:34.7466920Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 151.6/151.6 kB 819.1 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:34.7691016Z,Downloading crashtest-0.4.1-py3-none-any.whl (7.6 kB),,0
+	2026-02-10T04:25:34.9056749Z,Downloading distlib-0.4.0-py2.py3-none-any.whl (469 kB),,0
+	2026-02-10T04:25:35.0720135Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 469.0/469.0 kB 3.2 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:35.1023148Z,Downloading filelock-3.20.3-py3-none-any.whl (16 kB),,0
+	2026-02-10T04:25:35.2504464Z,Downloading httpx-0.28.1-py3-none-any.whl (73 kB),,0
+	2026-02-10T04:25:35.4356933Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 492.0 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:35.5627743Z,Downloading httpcore-1.0.9-py3-none-any.whl (78 kB),,0
+	2026-02-10T04:25:35.8265654Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 294.3 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:35.8867299Z,Downloading idna-3.11-py3-none-any.whl (71 kB),,0
+	2026-02-10T04:25:36.1278817Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 283.7 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:36.1760462Z,Downloading importlib_metadata-8.7.1-py3-none-any.whl (27 kB),,0
+	2026-02-10T04:25:36.3441003Z,Downloading jeepney-0.9.0-py3-none-any.whl (49 kB),,0
+	2026-02-10T04:25:36.4845506Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.0/49.0 kB 324.1 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:36.5362735Z,Downloading msgpack-1.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (426 kB),,0
+	2026-02-10T04:25:36.7152605Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 426.2/426.2 kB 2.5 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:36.7477006Z,Downloading rapidfuzz-3.14.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.2 MB),,0
+	2026-02-10T04:25:37.1103462Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 9.3 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:37.1353874Z,Downloading secretstorage-3.5.0-py3-none-any.whl (15 kB),,0
+	2026-02-10T04:25:37.2977979Z,Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB),,0
+	2026-02-10T04:25:37.4166795Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 323.3 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:37.4381709Z,Downloading urllib3-2.6.3-py3-none-any.whl (131 kB),,0
+	2026-02-10T04:25:37.5635712Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.6/131.6 kB 1.2 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:37.6039953Z,Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB),,0
+	2026-02-10T04:25:38.1641740Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 10.4 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:38.2033335Z,Downloading jaraco.classes-3.4.0-py3-none-any.whl (6.8 kB),,0
+	2026-02-10T04:25:38.3757939Z,Downloading jaraco_context-6.1.0-py3-none-any.whl (7.1 kB),,0
+	2026-02-10T04:25:38.5281332Z,Downloading jaraco_functools-4.4.0-py3-none-any.whl (10 kB),,0
+	2026-02-10T04:25:38.6759327Z,Downloading cryptography-46.0.4-cp311-abi3-manylinux_2_28_x86_64.whl (4.5 MB),,0
+	2026-02-10T04:25:39.2455378Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 8.9 MB/s eta 0:00:00,,0
+	2026-02-10T04:25:39.3426364Z,Downloading zipp-3.23.0-py3-none-any.whl (10 kB),,0
+	2026-02-10T04:25:39.5324297Z,Downloading anyio-4.12.1-py3-none-any.whl (113 kB),,0
+	2026-02-10T04:25:39.7433721Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.6/113.6 kB 565.4 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:39.7934099Z,Downloading backports.tarfile-1.2.0-py3-none-any.whl (30 kB),,0
+	2026-02-10T04:25:39.9952623Z,Downloading more_itertools-10.8.0-py3-none-any.whl (69 kB),,0
+	2026-02-10T04:25:40.3016465Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.7/69.7 kB 231.3 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:40.3394989Z,Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB),,0
+	2026-02-10T04:25:40.8651901Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 215.6/215.6 kB 431.6 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:40.9848410Z,Downloading h11-0.16.0-py3-none-any.whl (37 kB),,0
+	2026-02-10T04:25:41.2128785Z,Downloading pycparser-3.0-py3-none-any.whl (48 kB),,0
+	2026-02-10T04:25:41.6677868Z,   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 107.2 kB/s eta 0:00:00,,0
+	2026-02-10T04:25:45.1609152Z,Installing collected packages: trove-classifiers&comma; fastjsonschema&comma; distlib&comma; zstandard&comma; zipp&comma; urllib3&comma; typing_extensions&comma; tomlkit&comma; shellingham&comma; rapidfuzz&comma; pyproject-hooks&comma; pycparser&comma; poetry-core&comma; platformdirs&comma; pkginfo&comma; pbs-installer&comma; packaging&comma; msgpack&comma; more-itertools&comma; jeepney&comma; installer&comma; idna&comma; h11&comma; filelock&comma; crashtest&comma; charset_normalizer&comma; certifi&comma; backports.tarfile&comma; virtualenv&comma; requests&comma; jaraco.functools&comma; jaraco.context&comma; jaraco.classes&comma; importlib_metadata&comma; httpcore&comma; findpython&comma; dulwich&comma; cleo&comma; cffi&comma; build&comma; anyio&comma; requests-toolbelt&comma; httpx&comma; cryptography&comma; cachecontrol&comma; SecretStorage&comma; keyring&comma; poetry,,0

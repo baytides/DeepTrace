@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deployment>
+  <id>911840297d153ae09a738e1a3fb63e4847b5bf51</id>
+  <author>bayareadiscounts</author>
+  <deployer>GitHub</deployer>
+  <authorEmail>246928973+sfbaytides@users.noreply.github.com</authorEmail>
+  <message>Add WSGI entry point for Azure deployment</message>
+  <progress>Running oryx build...</progress>
+  <status>Building</status>
+  <statusText>Building and Deploying '911840297d153ae09a738e1a3fb63e4847b5bf51'.</statusText>
+  <lastSuccessEndTime />
+  <receivedTime>2026-02-10T04:43:39.1265118Z</receivedTime>
+  <startTime>2026-02-10T04:43:40.5501131Z</startTime>
+  <endTime />
+  <complete>False</complete>
+  <is_temp>False</is_temp>
+  <is_readonly>False</is_readonly>
+  <containerId>d34948fc56a2</containerId>
+  <buildSummary />
+</deployment>
