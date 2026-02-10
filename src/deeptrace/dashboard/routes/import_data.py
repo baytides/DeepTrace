@@ -19,6 +19,26 @@ from deeptrace.state import AppState
 
 bp = Blueprint("import_data", __name__)
 
+# Shared headers — many gov sites block bare httpx/python user agents
+_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+
+def _fetch_page(url: str) -> str:
+    """Fetch a URL with browser-like headers. Returns HTML text."""
+    response = httpx.get(
+        url, timeout=30.0, follow_redirects=True, headers=_HEADERS,
+    )
+    response.raise_for_status()
+    return response.text
+
 
 @bp.route("/")
 def import_page():
@@ -39,9 +59,7 @@ def import_namus():
         return jsonify({"error": "URL must be from NamUs"}), 400
 
     try:
-        response = httpx.get(url, timeout=30.0, follow_redirects=True)
-        response.raise_for_status()
-        html = response.text
+        html = _fetch_page(url)
 
         case_data = _parse_namus_page(html, url)
         case_id = _create_case_from_namus(case_data)
@@ -71,9 +89,7 @@ def import_ncmec():
         return jsonify({"error": "URL must be from missingkids.org"}), 400
 
     try:
-        response = httpx.get(url, timeout=30.0, follow_redirects=True)
-        response.raise_for_status()
-        html = response.text
+        html = _fetch_page(url)
 
         case_data = _parse_ncmec_page(html, url)
         case_id = _create_case_from_ncmec(case_data)
@@ -103,9 +119,7 @@ def import_doe():
         return jsonify({"error": "URL must be from doenetwork.org"}), 400
 
     try:
-        response = httpx.get(url, timeout=30.0, follow_redirects=True)
-        response.raise_for_status()
-        html = response.text
+        html = _fetch_page(url)
 
         case_data = _parse_doe_page(html, url)
         case_id = _create_case_from_doe(case_data)
@@ -136,9 +150,7 @@ def import_fbi():
 
     try:
         # Fetch the FBI page
-        response = httpx.get(url, timeout=30.0, follow_redirects=True)
-        response.raise_for_status()
-        html = response.text
+        html = _fetch_page(url)
 
         # Extract case details
         case_data = _parse_fbi_page(html, url)
