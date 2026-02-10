@@ -102,15 +102,53 @@ _DOMAIN_RELIABILITY: dict[str, tuple[str, str]] = {
     "usatoday.com": ("C", "3"),   # MBFC: MOSTLY FACTUAL (2.1), HIGH credibility
     "politico.com": ("B", "3"),   # MBFC: HIGH (1.3), HIGH credibility
     "thehill.com": ("C", "3"),    # MBFC: MOSTLY FACTUAL (2.2), HIGH credibility
+    "usnews.com": ("B", "2"),     # MBFC: HIGH (1.1), HIGH credibility
+    "newyorkpost.com": ("D", "4"),  # MBFC: MIXED (5.9), MEDIUM credibility
+    "newsweek.com": ("C", "3"),   # MBFC: MOSTLY FACTUAL (2.6), HIGH credibility
+    "forbes.com": ("C", "3"),     # MBFC: MOSTLY FACTUAL (2.0), HIGH credibility
+    "people.com": ("B", "3"),     # MBFC: HIGH (1.5), HIGH credibility
+    "chicagotribune.com": ("C", "3"),  # Major metro daily
+    "sfchronicle.com": ("C", "3"),    # Major metro daily
+    "sfgate.com": ("C", "3"),         # SF Chronicle online
+    "bostonglobe.com": ("B", "3"),    # Major metro daily
+    "dallasnews.com": ("C", "3"),     # Major metro daily
+    "nypost.com": ("D", "4"),     # Same as newyorkpost.com
 
     # Cable news — MBFC: MOSTLY FACTUAL to LOW
     "cnn.com": ("C", "3"),        # MBFC: MOSTLY FACTUAL (3.7), MEDIUM credibility
     "foxnews.com": ("E", "5"),    # MBFC: LOW factual (7.6), LOW credibility
     "msnbc.com": ("D", "4"),      # MBFC: MIXED factual (5.8), MEDIUM credibility
 
+    # Digital-first / online news
+    "huffpost.com": ("C", "3"),   # MBFC: MOSTLY FACTUAL, LEFT bias
+    "buzzfeed.com": ("C", "4"),   # MBFC: MOSTLY FACTUAL (3.6), MEDIUM credibility
+    "buzzfeednews.com": ("C", "3"),  # BuzzFeed News (shuttered 2023) was higher quality
+    "vox.com": ("C", "3"),        # MBFC: MOSTLY FACTUAL, LEFT-CENTER
+    "vice.com": ("C", "4"),       # MBFC: MOSTLY FACTUAL, LEFT-CENTER
+    "axios.com": ("B", "3"),      # MBFC: HIGH factual, LEAST BIASED
+    "thedailybeast.com": ("C", "4"),  # MBFC: MOSTLY FACTUAL, LEFT
+    "salon.com": ("D", "4"),      # MBFC: MIXED, LEFT
+    "breitbart.com": ("E", "5"),  # MBFC: LOW factual, FAR RIGHT, Questionable
+    "dailywire.com": ("D", "4"),  # MBFC: MIXED, RIGHT
+    "oann.com": ("E", "5"),       # MBFC: LOW factual, FAR RIGHT, Questionable
+    "newsmax.com": ("D", "5"),    # MBFC: MIXED, RIGHT, Questionable
+    "slate.com": ("C", "3"),      # MBFC: MOSTLY FACTUAL, LEFT-CENTER
+    "theatlantic.com": ("B", "3"),  # MBFC: HIGH factual, LEFT-CENTER
+    "newyorker.com": ("B", "3"),  # MBFC: HIGH factual, LEFT-CENTER
+    "time.com": ("B", "3"),       # MBFC: HIGH factual, LEFT-CENTER
+
+    # UK tabloids / international
+    "dailymail.co.uk": ("E", "5"),  # MBFC: LOW (7.1), LOW credibility, Questionable
+    "thesun.co.uk": ("D", "4"),   # MBFC: MIXED (5.9), MEDIUM credibility
+    "independent.co.uk": ("D", "4"),  # MBFC: MIXED (5.8), MEDIUM credibility
+    "telegraph.co.uk": ("C", "3"),    # MBFC: MOSTLY FACTUAL
+    "sky.com": ("C", "3"),        # Sky News UK
+
     # Investigative journalism — MBFC: HIGH factual
     "propublica.org": ("B", "2"), # MBFC: HIGH (0.8), Pulitzer-winning
     "icij.org": ("B", "2"),       # Pandora/Panama Papers — HIGH factual
+    "theintercept.com": ("C", "3"),  # MBFC: MOSTLY FACTUAL, LEFT
+    "revealnews.org": ("B", "2"),    # Center for Investigative Reporting
 
     # Legal databases (primary sources)
     "courtlistener.com": ("A", "1"),  # Primary court records
