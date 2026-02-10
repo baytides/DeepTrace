@@ -3,6 +3,7 @@
 from pathlib import Path
 
 from flask import Flask, session
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 import deeptrace.state as _state
 from deeptrace.db import CaseDatabase
@@ -18,6 +19,10 @@ def create_app(case_slug: str = "") -> Flask:
         template_folder=str(Path(__file__).parent / "templates"),
         static_folder=str(Path(__file__).parent / "static"),
     )
+
+    # Trust Azure reverse-proxy headers so redirects use https://
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
     app.config["SECRET_KEY"] = "deeptrace-local-only"
     app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50 MB
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
