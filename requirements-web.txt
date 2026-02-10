@@ -18,6 +18,7 @@ networkx>=3.1
 
 # For API integrations
 requests>=2.31.0
+httpx>=0.28.0
 
 # Security
 python-dotenv>=1.0.0
