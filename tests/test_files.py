@@ -414,6 +414,49 @@ class TestFilesRoute:
         assert resp.status_code == 200
         assert b"intact" in resp.data.lower()
 
+    def test_forensic_system_prompt_uncensored(self):
+        """Verify the forensic system prompt prohibits censorship."""
+        from deeptrace.dashboard.routes.files import FORENSIC_SYSTEM_PROMPT
+        assert "NEVER censor" in FORENSIC_SYSTEM_PROMPT
+        assert "CSAM" in FORENSIC_SYSTEM_PROMPT
+
+    def test_analyze_uses_carl_ai(self, client, app, monkeypatch):
+        """AI analysis should use Carl (Ollama) not Anthropic."""
+        from io import BytesIO
+        import deeptrace.dashboard.routes.files as files_mod
+
+        client.post(
+            "/files/",
+            data={"file": (BytesIO(b"crime scene photo data"), "scene.jpg")},
+            content_type="multipart/form-data",
+        )
+
+        # Mock the requests.post call used by Carl AI
+        class MockResponse:
+            status_code = 200
+            def json(self):
+                return {
+                    "response": "Analysis: blood spatter pattern consistent with blunt force trauma",
+                    "model": "qwen2.5:3b-instruct",
+                }
+            def raise_for_status(self):
+                pass
+
+        monkeypatch.setattr(files_mod.http_requests, "post", lambda *a, **kw: MockResponse())
+
+        resp = client.post("/files/1/analyze")
+        assert resp.status_code == 200
+
+        import deeptrace.state as _state
+        case_dir = _state.CASES_DIR / "test-case"
+        db = CaseDatabase(case_dir / "case.db")
+        db.open()
+        try:
+            row = db.fetchone("SELECT ai_analysis FROM attachments WHERE id = 1")
+            assert "blood spatter" in row["ai_analysis"]
+        finally:
+            db.close()
+
     def test_verify_integrity_fails_on_tamper(self, client, app):
         """Verify should detect tampered files."""
         from io import BytesIO

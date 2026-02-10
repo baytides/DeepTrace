@@ -8,6 +8,8 @@ import os
 from datetime import UTC, datetime
 from pathlib import Path
 
+import requests as http_requests
+
 from flask import Blueprint, Response, current_app, render_template, request
 
 import deeptrace.state as _state
@@ -124,96 +126,81 @@ def _get_entity_name(db, entity_type: str, entity_id: int) -> str:
     return f"{entity_type} #{entity_id}"
 
 
-def _run_ai_analysis(file_bytes: bytes, mime_type: str, filename: str) -> str:
-    """Run AI analysis on file contents via Anthropic SDK."""
-    try:
-        import anthropic
+CARL_API_URL = os.getenv("CARL_API_URL", "https://ai.baytides.org/api/generate")
+CARL_DEFAULT_MODEL = os.getenv("CARL_DEFAULT_MODEL", "qwen2.5:3b-instruct")
 
-        client = anthropic.Anthropic()
-        model = "claude-sonnet-4-20250514"
-        prompt = (
-            "Analyze this file in the context of a criminal cold case investigation. "
-            "Describe what you observe, note any potentially relevant details, "
-            "anomalies, or investigative leads. Be thorough but concise."
-        )
+FORENSIC_SYSTEM_PROMPT = (
+    "You are a forensic investigation analysis tool used by cold case investigators. "
+    "Your purpose is to objectively analyze all materials submitted to you — including "
+    "crime scene photographs, autopsy images, graphic witness statements, surveillance "
+    "footage stills, and other disturbing content that is routine in homicide investigation. "
+    "\n\n"
+    "CRITICAL RULES:\n"
+    "1. NEVER censor, soften, hedge, or refuse to describe what you observe. "
+    "Investigators need complete, factual, clinical descriptions to do their work. "
+    "Euphemisms cost lives.\n"
+    "2. Describe injuries, wounds, blood patterns, decomposition, and other graphic "
+    "details with precise forensic terminology.\n"
+    "3. Note spatial relationships, lighting, timestamps, visible objects, and anything "
+    "that could constitute an investigative lead.\n"
+    "4. The ONLY exception: if the material appears to depict the sexual abuse or "
+    "exploitation of a minor (CSAM), refuse the analysis immediately and state why.\n"
+    "5. You are not making moral judgments. You are documenting observations for "
+    "investigators who are trying to bring justice to victims."
+)
+
+
+def _run_ai_analysis(file_bytes: bytes, mime_type: str, filename: str) -> str:
+    """Run AI analysis on file contents via Carl AI (Ollama)."""
+    try:
+        prompt_parts = [FORENSIC_SYSTEM_PROMPT, "", f"File: {filename} ({mime_type})", ""]
 
         if mime_type.startswith("image/"):
-            media_type = mime_type
             b64 = base64.standard_b64encode(file_bytes).decode("utf-8")
-            message = client.messages.create(
-                model=model,
-                max_tokens=2048,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": media_type,
-                                    "data": b64,
-                                },
-                            },
-                            {"type": "text", "text": prompt},
-                        ],
-                    }
-                ],
+            prompt_parts.append(
+                "Analyze this image in the context of a criminal cold case investigation. "
+                "Describe everything you observe — forensic details, spatial layout, "
+                "objects, potential evidence, anomalies, and investigative leads."
             )
-            return message.content[0].text
-
-        if mime_type == "application/pdf":
-            b64 = base64.standard_b64encode(file_bytes).decode("utf-8")
-            message = client.messages.create(
-                model=model,
-                max_tokens=2048,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "document",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": "application/pdf",
-                                    "data": b64,
-                                },
-                            },
-                            {"type": "text", "text": prompt},
-                        ],
-                    }
-                ],
-            )
-            return message.content[0].text
-
-        if mime_type.startswith("text/"):
+            payload = {
+                "model": CARL_DEFAULT_MODEL,
+                "prompt": "\n".join(prompt_parts),
+                "images": [b64],
+                "stream": False,
+                "options": {"temperature": 0.3, "num_predict": 4096},
+            }
+        elif mime_type.startswith("text/") or mime_type == "application/pdf":
             text_content = file_bytes.decode("utf-8", errors="replace")
             if len(text_content) > 50000:
                 text_content = text_content[:50000] + "\n... [truncated]"
-            message = client.messages.create(
-                model=model,
-                max_tokens=2048,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": (
-                            f"File: {filename}\n\nContents:\n{text_content}\n\n{prompt}"
-                        ),
-                    }
-                ],
+            prompt_parts.append(f"Document contents:\n{text_content}")
+            prompt_parts.append(
+                "\nAnalyze this document for investigative relevance. "
+                "Note names, dates, locations, contradictions, and leads."
             )
-            return message.content[0].text
-
-        if mime_type.startswith("video/"):
+            payload = {
+                "model": CARL_DEFAULT_MODEL,
+                "prompt": "\n".join(prompt_parts),
+                "stream": False,
+                "options": {"temperature": 0.3, "num_predict": 4096},
+            }
+        elif mime_type.startswith("video/"):
             return (
                 "Video analysis is not currently supported. "
-                "Please extract key frames as images for analysis."
+                "Extract key frames as images for analysis."
             )
+        else:
+            return f"Analysis not supported for MIME type: {mime_type}"
 
-        return f"Analysis not supported for MIME type: {mime_type}"
+        response = http_requests.post(CARL_API_URL, json=payload, timeout=120)
+        response.raise_for_status()
+        data = response.json()
+        return data.get("response", "No response from Carl AI")
 
-    except ImportError:
-        return "Error: anthropic SDK is not installed. Run: pip install anthropic"
+    except http_requests.exceptions.Timeout:
+        return "Error: Carl AI request timed out. The model may be loading."
+    except http_requests.exceptions.RequestException as e:
+        return f"Error: Carl AI request failed: {e}"
     except Exception as e:
         return f"AI analysis failed: {e}"
 
