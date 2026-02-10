@@ -94,20 +94,18 @@
       <!-- NamUs -->
       <div class="import-card">
         <div class="import-icon">🔍</div>
-        <div class="status-badge status-planned">Planned</div>
+        <div class="status-badge status-active">Active</div>
         <h3 class="import-title">NamUs Database</h3>
         <p class="import-description">
-          Import missing persons and unidentified persons cases from the National Missing and Unidentified Persons System.
+          Import missing persons and unidentified persons cases from NamUs. Paste any NamUs case URL.
         </p>
         <div class="form-group">
-          <input type="text" id="namus_id" placeholder="NamUs Case Number" class="form-input">
+          <input type="url" id="namus_url" placeholder="https://namus.nij.ojp.gov/case/..." class="form-input">
         </div>
-        <button onclick="importNamUs()" class="btn btn-secondary" style="width: 100%;" disabled>
+        <button onclick="importNamUs()" class="btn btn-primary" style="width: 100%;">
           Import from NamUs
         </button>
-        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
-          API integration coming soon
-        </small>
+        <div id="namus_status" style="display: none; margin-top: 0.75rem; padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.875rem;"></div>
       </div>
 
       <!-- FBI -->
@@ -168,39 +166,35 @@
       <!-- NCMEC -->
       <div class="import-card">
         <div class="import-icon">👶</div>
-        <div class="status-badge status-planned">Planned</div>
+        <div class="status-badge status-active">Active</div>
         <h3 class="import-title">NCMEC Missing Kids</h3>
         <p class="import-description">
-          Import missing children cases from the National Center for Missing & Exploited Children.
+          Import missing children cases from NCMEC. Paste any NCMEC poster or case URL.
         </p>
         <div class="form-group">
-          <input type="text" id="ncmec_id" placeholder="NCMEC Case ID" class="form-input">
+          <input type="url" id="ncmec_url" placeholder="https://www.missingkids.org/poster/..." class="form-input">
         </div>
-        <button onclick="importNCMEC()" class="btn btn-secondary" style="width: 100%;" disabled>
+        <button onclick="importNCMEC()" class="btn btn-primary" style="width: 100%;">
           Import from NCMEC
         </button>
-        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
-          API integration coming soon
-        </small>
+        <div id="ncmec_status" style="display: none; margin-top: 0.75rem; padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.875rem;"></div>
       </div>
 
       <!-- Doe Network -->
       <div class="import-card">
         <div class="import-icon">🌐</div>
-        <div class="status-badge status-planned">Planned</div>
+        <div class="status-badge status-active">Active</div>
         <h3 class="import-title">The Doe Network</h3>
         <p class="import-description">
-          Import cold cases from The Doe Network, a volunteer organization for unidentified persons.
+          Import cold cases from The Doe Network. Paste any Doe Network case URL.
         </p>
         <div class="form-group">
-          <input type="text" id="doe_id" placeholder="Doe Network Case ID" class="form-input">
+          <input type="url" id="doe_url" placeholder="https://www.doenetwork.org/cases/..." class="form-input">
         </div>
-        <button onclick="importDoeNetwork()" class="btn btn-secondary" style="width: 100%;" disabled>
+        <button onclick="importDoeNetwork()" class="btn btn-primary" style="width: 100%;">
           Import from Doe Network
         </button>
-        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
-          API integration coming soon
-        </small>
+        <div id="doe_status" style="display: none; margin-top: 0.75rem; padding: 0.5rem; border-radius: var(--radius-sm); font-size: 0.875rem;"></div>
       </div>
     </div>
 
@@ -277,11 +271,61 @@
       }
     }
 
-    function importNamUs() { showNotImplemented('NamUs'); }
+    async function importNamUs() {
+      await importFromURL('namus', document.getElementById('namus_url'), 'namus_status', 'namus');
+    }
+
+    async function importNCMEC() {
+      await importFromURL('ncmec', document.getElementById('ncmec_url'), 'ncmec_status', 'missingkids.org');
+    }
+
+    async function importDoeNetwork() {
+      await importFromURL('doe', document.getElementById('doe_url'), 'doe_status', 'doenetwork.org');
+    }
+
+    async function importFromURL(endpoint, inputEl, statusId, domain) {
+      const url = inputEl.value.trim();
+      const statusDiv = document.getElementById(statusId);
+      const btn = event.target;
+
+      if (!url) {
+        showStatus(statusDiv, 'danger', 'Please enter a URL');
+        return;
+      }
+      if (!url.includes(domain)) {
+        showStatus(statusDiv, 'danger', `URL must be from ${domain}`);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Importing...';
+      showStatus(statusDiv, 'info', '⏳ Fetching case data...');
+
+      try {
+        const response = await fetch(`/import/${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+          showStatus(statusDiv, 'success', '✅ ' + data.message + ' - Redirecting...');
+          setTimeout(() => window.location.href = `/case/${data.case_id}`, 1500);
+        } else {
+          showStatus(statusDiv, 'danger', '❌ ' + (data.error || 'Import failed'));
+          btn.disabled = false;
+          btn.textContent = `Import from ${endpoint.toUpperCase()}`;
+        }
+      } catch (error) {
+        showStatus(statusDiv, 'danger', '❌ Network error: ' + error.message);
+        btn.disabled = false;
+        btn.textContent = `Import from ${endpoint.toUpperCase()}`;
+      }
+    }
+
     function importCSV() { showNotImplemented('CSV Import'); }
     function importJSON() { showNotImplemented('JSON Import'); }
-    function importNCMEC() { showNotImplemented('NCMEC'); }
-    function importDoeNetwork() { showNotImplemented('Doe Network'); }
   </script>
 </body>
 </html>
