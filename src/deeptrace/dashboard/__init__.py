@@ -49,6 +49,7 @@ def create_app(case_slug: str = "") -> Flask:
         db_path = case_dir / "case.db"
         db = CaseDatabase(db_path)
         db.open()
+        db.maybe_migrate(case_dir)
         return db
 
     # Attach helper functions to app

@@ -52,6 +52,7 @@ class AppState:
         self.active_case_slug = slug
         self.db = CaseDatabase(case_dir / "case.db")
         self.db.open()
+        self.db.maybe_migrate(case_dir)
 
     def close_case(self) -> None:
         if self.db:

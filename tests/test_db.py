@@ -279,3 +279,54 @@ def test_migrate_v3_to_v4_extracts_blobs(tmp_path):
     assert "sha256" in cols
 
     db.close()
+
+
+def test_open_v3_database_triggers_migration(tmp_path):
+    """Opening a v3 case should auto-migrate to v4."""
+    import sqlite3
+    from deeptrace.db import CaseDatabase
+
+    case_dir = tmp_path / "old-case"
+    case_dir.mkdir()
+    db_path = case_dir / "case.db"
+
+    # Create a minimal v3 database
+    conn = sqlite3.connect(str(db_path))
+    conn.executescript("""
+        CREATE TABLE schema_version (version INTEGER NOT NULL);
+        INSERT INTO schema_version (version) VALUES (3);
+        CREATE TABLE attachments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT NOT NULL,
+            mime_type TEXT NOT NULL,
+            file_size INTEGER NOT NULL,
+            data BLOB NOT NULL,
+            thumbnail BLOB,
+            description TEXT,
+            ai_analysis TEXT,
+            ai_analyzed_at TEXT,
+            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+    """)
+    conn.execute(
+        "INSERT INTO attachments (filename, mime_type, file_size, data) "
+        "VALUES (?, ?, ?, ?)",
+        ("test.jpg", "image/jpeg", 5, b"hello"),
+    )
+    conn.commit()
+    conn.close()
+
+    # Open with CaseDatabase — should auto-migrate via maybe_migrate
+    db = CaseDatabase(db_path)
+    db.open()
+    db.maybe_migrate(case_dir)
+
+    ver = db.fetchone("SELECT version FROM schema_version")
+    assert ver["version"] == 4
+
+    row = db.fetchone("SELECT file_path, sha256 FROM attachments WHERE id = 1")
+    assert row["file_path"] is not None
+    assert row["sha256"] is not None
+    assert (case_dir / "attachments" / "1_test.jpg").exists()
+
+    db.close()

@@ -309,6 +309,16 @@ class CaseDatabase:
     def fetchall(self, sql: str, params: tuple = ()) -> list[sqlite3.Row]:
         return self.conn.execute(sql, params).fetchall()
 
+    def maybe_migrate(self, case_dir: Path) -> None:
+        """Run any pending schema migrations."""
+        version_row = self.fetchone("SELECT version FROM schema_version")
+        if not version_row:
+            return
+        version = version_row["version"]
+        if version < 4:
+            attachments_dir = case_dir / "attachments"
+            migrate_v3_to_v4(self, attachments_dir)
+
 
 def migrate_v3_to_v4(db: CaseDatabase, attachments_dir: Path) -> None:
     """Extract BLOBs to disk and restructure attachments table for v4."""
