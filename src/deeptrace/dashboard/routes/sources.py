@@ -19,7 +19,7 @@ bp = Blueprint("sources", __name__)
 # ---------------------------------------------------------------------------
 
 _SOURCE_TYPE_MAP: dict[str, str] = {
-    # Official / government / legal
+    # Official / government / legal (primary sources)
     ".gov": "official",
     ".mil": "official",
     "un.org": "official",
@@ -28,10 +28,13 @@ _SOURCE_TYPE_MAP: dict[str, str] = {
     "europa.eu": "official",
     "courtlistener.com": "official",
     "law.cornell.edu": "official",
-    # News organisations
+    "pacer.uscourts.gov": "official",
+    "govinfo.gov": "official",
+    # Wire services
     "reuters.com": "news",
     "apnews.com": "news",
     "afp.com": "news",
+    # Broadcasters
     "bbc.com": "news",
     "bbc.co.uk": "news",
     "abcnews.go.com": "news",
@@ -40,24 +43,30 @@ _SOURCE_TYPE_MAP: dict[str, str] = {
     "nbcnews.com": "news",
     "pbs.org": "news",
     "npr.org": "news",
+    "cnn.com": "news",
+    "foxnews.com": "news",
+    "msnbc.com": "news",
+    # Newspapers
     "nytimes.com": "news",
     "washingtonpost.com": "news",
     "wsj.com": "news",
     "theguardian.com": "news",
     "latimes.com": "news",
     "usatoday.com": "news",
-    "cnn.com": "news",
-    "foxnews.com": "news",
-    "msnbc.com": "news",
     "politico.com": "news",
     "thehill.com": "news",
+    # Investigative
     "propublica.org": "news",
     "icij.org": "news",
+    # Fact-checkers
+    "snopes.com": "news",
+    "factcheck.org": "news",
+    "politifact.com": "news",
     # Academic / reference
     ".edu": "academic",
     "wikipedia.org": "academic",
     "archive.org": "academic",
-    "snopes.com": "academic",
+    "scholar.google.com": "academic",
     # Social media
     "facebook.com": "social",
     "twitter.com": "social",
@@ -66,6 +75,10 @@ _SOURCE_TYPE_MAP: dict[str, str] = {
     "instagram.com": "social",
     "tiktok.com": "social",
     "youtube.com": "social",
+    "threads.net": "social",
+    "mastodon.social": "social",
+    "bsky.app": "social",
+    # Blogs / opinion
     "medium.com": "social",
     "substack.com": "social",
 }
