@@ -215,3 +215,67 @@ class TestCaseDatabase:
         events = db.fetchall("SELECT * FROM events")
         assert len(events) == 1
         assert events[0]["description"] == malicious
+
+
+def test_migrate_v3_to_v4_extracts_blobs(tmp_path):
+    """v3 databases with BLOB data should migrate to disk files."""
+    import hashlib
+    from deeptrace.db import CaseDatabase, migrate_v3_to_v4
+
+    db_path = tmp_path / "case.db"
+    db = CaseDatabase(db_path)
+    db.open()
+
+    # Create v3 schema manually (with data BLOB column)
+    db.conn.executescript("""
+        CREATE TABLE schema_version (version INTEGER NOT NULL);
+        INSERT INTO schema_version (version) VALUES (3);
+        CREATE TABLE attachments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT NOT NULL,
+            mime_type TEXT NOT NULL,
+            file_size INTEGER NOT NULL,
+            data BLOB NOT NULL,
+            thumbnail BLOB,
+            description TEXT,
+            ai_analysis TEXT,
+            ai_analyzed_at TEXT,
+            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+    """)
+    db.conn.execute(
+        "INSERT INTO attachments (filename, mime_type, file_size, data, thumbnail) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("photo.jpg", "image/jpeg", 4, b"\xff\xd8\xff\xe0", b"\x89PNG"),
+    )
+    db.conn.commit()
+
+    # Run migration
+    attachments_dir = tmp_path / "attachments"
+    migrate_v3_to_v4(db, attachments_dir)
+
+    # File should exist on disk
+    row = db.fetchone("SELECT file_path, sha256, thumbnail_path FROM attachments WHERE id = 1")
+    assert row is not None
+    assert (tmp_path / row["file_path"]).exists()
+    assert (tmp_path / row["file_path"]).read_bytes() == b"\xff\xd8\xff\xe0"
+
+    # SHA-256 should be correct
+    expected_hash = hashlib.sha256(b"\xff\xd8\xff\xe0").hexdigest()
+    assert row["sha256"] == expected_hash
+
+    # Thumbnail should exist on disk
+    assert row["thumbnail_path"] is not None
+    assert (tmp_path / row["thumbnail_path"]).exists()
+
+    # Schema version should be 4
+    ver = db.fetchone("SELECT version FROM schema_version")
+    assert ver["version"] == 4
+
+    # data BLOB column should be gone
+    cols = [r["name"] for r in db.fetchall("PRAGMA table_info(attachments)")]
+    assert "data" not in cols
+    assert "file_path" in cols
+    assert "sha256" in cols
+
+    db.close()

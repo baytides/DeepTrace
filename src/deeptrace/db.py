@@ -1,5 +1,6 @@
 """SQLite database manager for case files."""
 
+import hashlib
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
@@ -307,6 +308,96 @@ class CaseDatabase:
 
     def fetchall(self, sql: str, params: tuple = ()) -> list[sqlite3.Row]:
         return self.conn.execute(sql, params).fetchall()
+
+
+def migrate_v3_to_v4(db: CaseDatabase, attachments_dir: Path) -> None:
+    """Extract BLOBs to disk and restructure attachments table for v4."""
+    version_row = db.fetchone("SELECT version FROM schema_version")
+    if version_row and version_row["version"] >= 4:
+        return  # Already migrated
+
+    attachments_dir.mkdir(parents=True, exist_ok=True)
+    thumbs_dir = attachments_dir / "thumbs"
+    thumbs_dir.mkdir(exist_ok=True)
+
+    # Check if old schema has data column
+    cols = [r["name"] for r in db.fetchall("PRAGMA table_info(attachments)")]
+    if "data" not in cols:
+        db.conn.execute("UPDATE schema_version SET version = 4")
+        db.conn.commit()
+        return
+
+    # Read existing rows
+    rows = db.fetchall(
+        "SELECT id, filename, mime_type, file_size, data, thumbnail, "
+        "description, ai_analysis, ai_analyzed_at, created_at "
+        "FROM attachments"
+    )
+
+    extracted = []
+    for row in rows:
+        file_bytes = row["data"]
+        sha256 = hashlib.sha256(file_bytes).hexdigest()
+        safe_name = f"{row['id']}_{row['filename']}"
+        file_path = f"attachments/{safe_name}"
+        (attachments_dir / safe_name).write_bytes(file_bytes)
+
+        thumb_path = None
+        if row["thumbnail"]:
+            thumb_name = f"{row['id']}_{row['filename']}.thumb.png"
+            thumb_path = f"attachments/thumbs/{thumb_name}"
+            (thumbs_dir / thumb_name).write_bytes(row["thumbnail"])
+
+        extracted.append({
+            "id": row["id"],
+            "filename": row["filename"],
+            "mime_type": row["mime_type"],
+            "file_size": row["file_size"],
+            "file_path": file_path,
+            "sha256": sha256,
+            "description": row["description"],
+            "thumbnail_path": thumb_path,
+            "ai_analysis": row["ai_analysis"],
+            "ai_analyzed_at": row["ai_analyzed_at"],
+            "created_at": row["created_at"],
+        })
+
+    # Rebuild table (drop BLOB columns, add new columns)
+    db.conn.executescript("""
+        DROP TABLE IF EXISTS attachments_old;
+        ALTER TABLE attachments RENAME TO attachments_old;
+        CREATE TABLE attachments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            filename TEXT NOT NULL,
+            mime_type TEXT NOT NULL,
+            file_size INTEGER NOT NULL,
+            file_path TEXT NOT NULL,
+            sha256 TEXT NOT NULL,
+            description TEXT,
+            source_url TEXT,
+            thumbnail_path TEXT,
+            ai_analysis TEXT,
+            ai_analyzed_at TEXT,
+            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        CREATE INDEX IF NOT EXISTS idx_attachments_mime ON attachments(mime_type);
+    """)
+
+    for item in extracted:
+        db.conn.execute(
+            "INSERT INTO attachments "
+            "(id, filename, mime_type, file_size, file_path, sha256, "
+            "description, thumbnail_path, ai_analysis, ai_analyzed_at, created_at) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (item["id"], item["filename"], item["mime_type"], item["file_size"],
+             item["file_path"], item["sha256"], item["description"],
+             item["thumbnail_path"], item["ai_analysis"], item["ai_analyzed_at"],
+             item["created_at"]),
+        )
+
+    db.conn.execute("DROP TABLE attachments_old")
+    db.conn.execute("UPDATE schema_version SET version = 4")
+    db.conn.commit()
 
 
 # ---------------------------------------------------------------------------
