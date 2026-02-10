@@ -49,7 +49,7 @@ def create_case():
     db_path = case_dir / "case.db"
     db = CaseDatabase(db_path)
     db.open()
-    db.init_schema()
+    db.initialize_schema()
 
     # Optionally store description in a metadata file
     if case_description:
