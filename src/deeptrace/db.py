@@ -4,7 +4,7 @@ import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 # Table creation order matters for foreign key references:
 # 1. schema_version (no FK)
@@ -185,9 +185,11 @@ CREATE TABLE IF NOT EXISTS attachments (
     filename TEXT NOT NULL,
     mime_type TEXT NOT NULL,
     file_size INTEGER NOT NULL,
+    file_path TEXT NOT NULL,
+    sha256 TEXT NOT NULL,
     description TEXT,
-    data BLOB NOT NULL,
-    thumbnail BLOB,
+    source_url TEXT,
+    thumbnail_path TEXT,
     ai_analysis TEXT,
     ai_analyzed_at TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))

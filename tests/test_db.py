@@ -194,6 +194,17 @@ class TestCaseDatabase:
         assert len(sources) == 1
         assert sources[0]["raw_text"] == "Good data"
 
+    def test_attachments_v4_columns(self, db):
+        """Verify v4 attachments table has file_path, sha256, source_url."""
+        row = db.fetchone(
+            "SELECT sql FROM sqlite_master WHERE type='table' AND name='attachments'"
+        )
+        schema = row["sql"]
+        assert "file_path" in schema
+        assert "sha256" in schema
+        assert "source_url" in schema
+        assert "data BLOB" not in schema
+
     def test_parameterized_queries_prevent_injection(self, db):
         malicious = "'; DROP TABLE events; --"
         with db.transaction() as cursor:
