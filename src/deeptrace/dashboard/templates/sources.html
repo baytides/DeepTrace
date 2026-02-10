@@ -1,14 +1,14 @@
 <div class="section-header">
   <h1 class="section-title">Sources</h1>
-  <button class="btn btn-primary" onclick="document.getElementById('add-source-form').style.display = document.getElementById('add-source-form').style.display === 'none' ? 'block' : 'none'">+ Add Source</button>
+  <button class="btn btn-primary" aria-expanded="false" aria-controls="add-source-form" onclick="var f=document.getElementById('add-source-form'); var show=f.style.display==='none'; f.style.display=show?'block':'none'; this.setAttribute('aria-expanded', show)">+ Add Source</button>
 </div>
 
 <div id="add-source-form" class="add-form-container" style="display:none">
   <form class="add-form" hx-post="/sources" hx-target="#main-content" hx-swap="innerHTML">
     <div class="form-row">
       <div class="form-group">
-        <label>Source Type</label>
-        <select name="source_type">
+        <label for="source-type">Source Type</label>
+        <select name="source_type" id="source-type">
           <option value="news">News</option>
           <option value="official">Official</option>
           <option value="social">Social</option>
@@ -17,24 +17,24 @@
         </select>
       </div>
       <div class="form-group">
-        <label>URL</label>
-        <input type="text" name="url" placeholder="https://...">
+        <label for="source-url">URL</label>
+        <input type="text" name="url" id="source-url" placeholder="https://...">
       </div>
       <div class="form-group" style="max-width:120px">
-        <label>Reliability</label>
-        <input type="number" name="reliability_score" value="0.5" min="0" max="1" step="0.1">
+        <label for="source-reliability">Reliability</label>
+        <input type="number" name="reliability_score" id="source-reliability" value="0.5" min="0" max="1" step="0.1">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Text / Summary</label>
-        <textarea name="raw_text" rows="3" required placeholder="Source text or summary..."></textarea>
+        <label for="source-raw-text">Text / Summary</label>
+        <textarea name="raw_text" id="source-raw-text" rows="3" required placeholder="Source text or summary..."></textarea>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Notes</label>
-        <input type="text" name="notes" placeholder="Optional notes">
+        <label for="source-notes">Notes</label>
+        <input type="text" name="notes" id="source-notes" placeholder="Optional notes">
       </div>
     </div>
     <div class="flex gap-8">
@@ -48,16 +48,16 @@
   <table class="data-table">
     <thead>
       <tr>
-        <th class="id-col">#</th>
-        <th class="type-col">Type</th>
-        <th>Text</th>
-        <th style="width:80px">Reliability</th>
-        <th style="width:100px">Date</th>
+        <th scope="col" class="id-col">#</th>
+        <th scope="col" class="type-col">Type</th>
+        <th scope="col">Text</th>
+        <th scope="col" style="width:80px">Reliability</th>
+        <th scope="col" style="width:100px">Date</th>
       </tr>
     </thead>
     <tbody>
       {% for s in sources %}
-      <tr hx-get="/sources/{{ s.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+      <tr hx-get="/sources/{{ s.id }}" hx-target="#detail-panel" hx-swap="innerHTML" tabindex="0">
         <td class="id-col">{{ s.id }}</td>
         <td class="type-col"><span class="badge">{{ s.source_type }}</span></td>
         <td class="text-truncate" style="max-width:400px">{{ s.raw_text[:100] }}{% if s.raw_text|length > 100 %}...{% endif %}</td>

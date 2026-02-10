@@ -8,9 +8,9 @@
     <table class="ach-table">
       <thead>
         <tr>
-          <th style="text-align:left;min-width:180px">Evidence \ Hypothesis</th>
+          <th scope="col" style="text-align:left;min-width:180px">Evidence \ Hypothesis</th>
           {% for h in hypotheses %}
-          <th title="{{ h.description }}">
+          <th scope="col" title="{{ h.description }}">
             H{{ h.id }}: {{ h.description[:25] }}{% if h.description|length > 25 %}...{% endif %}
             <br><span class="tier-{{ h.tier }}" style="font-size:10px">({{ h.tier }})</span>
           </th>
@@ -20,7 +20,7 @@
       <tbody>
         {% for e in evidence %}
         <tr>
-          <td class="ach-evidence-label" title="{{ e.name }}">
+          <td scope="row" class="ach-evidence-label" title="{{ e.name }}">
             E{{ e.id }}: {{ e.name[:30] }}{% if e.name|length > 30 %}...{% endif %}
             <br><span style="font-size:10px;color:var(--text-dim)">{{ e.evidence_type }}</span>
           </td>
@@ -31,7 +31,10 @@
               <div class="ach-cell {% if score %}ach-cell-{{ score.consistency }}{% endif %}"
                    hx-get="/ach/{{ h.id }}/{{ e.id }}/edit"
                    hx-target="closest td"
-                   hx-swap="innerHTML">
+                   hx-swap="innerHTML"
+                   tabindex="0"
+                   role="button"
+                   aria-label="Score for H{{ h.id }} vs E{{ e.id }}: {% if score %}{{ score.consistency }}{% else %}unscored{% endif %}">
                 {% if score %}
                   {{ score.consistency }}
                   <span class="weight-indicator">{{ score.diagnostic_weight }}</span>
@@ -49,7 +52,7 @@
 </div>
 
 <div class="panel" style="margin-top:12px">
-  <div class="panel-title">Legend</div>
+  <h2 class="panel-title">Legend</h2>
   <div style="display:flex;gap:24px;font-size:13px">
     <span><strong style="color:var(--accent-green)">C</strong> = Consistent</span>
     <span><strong style="color:var(--accent-red)">I</strong> = Inconsistent</span>

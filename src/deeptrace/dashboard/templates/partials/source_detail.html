@@ -1,6 +1,6 @@
 <div class="detail-header">
   <h3>Source #{{ source.id }}</h3>
-  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+  <button class="detail-close" aria-label="Close detail panel" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
 </div>
 
 <div style="margin-bottom:16px">
@@ -18,13 +18,13 @@
 {% endif %}
 
 <div style="margin-bottom:16px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">TEXT</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">TEXT</h4>
   <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">{{ source.raw_text }}</div>
 </div>
 
 {% if source.notes %}
 <div style="margin-bottom:16px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">NOTES</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">NOTES</h4>
   <div style="font-size:13px;color:var(--text-secondary)">{{ source.notes }}</div>
 </div>
 {% endif %}

@@ -1,6 +1,6 @@
 <div class="section-header">
   <h1 class="section-title">Evidence</h1>
-  <button class="btn btn-primary" onclick="document.getElementById('add-evidence-form').style.display = document.getElementById('add-evidence-form').style.display === 'none' ? 'block' : 'none'">+ Add Evidence</button>
+  <button class="btn btn-primary" aria-expanded="false" aria-controls="add-evidence-form" onclick="var f=document.getElementById('add-evidence-form'); var show=f.style.display==='none'; f.style.display=show?'block':'none'; this.setAttribute('aria-expanded', show)">+ Add Evidence</button>
 </div>
 
 <div class="filter-pills">
@@ -16,12 +16,12 @@
   <form class="add-form" hx-post="/evidence" hx-target="#main-content" hx-swap="innerHTML">
     <div class="form-row">
       <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name" required placeholder="Evidence item name">
+        <label for="evidence-name">Name</label>
+        <input type="text" name="name" id="evidence-name" required placeholder="Evidence item name">
       </div>
       <div class="form-group" style="max-width:160px">
-        <label>Type</label>
-        <select name="evidence_type">
+        <label for="evidence-type">Type</label>
+        <select name="evidence_type" id="evidence-type">
           <option value="physical">Physical</option>
           <option value="digital">Digital</option>
           <option value="circumstantial">Circumstantial</option>
@@ -30,8 +30,8 @@
         </select>
       </div>
       <div class="form-group" style="max-width:140px">
-        <label>Status</label>
-        <select name="status">
+        <label for="evidence-status">Status</label>
+        <select name="status" id="evidence-status">
           <option value="known">Known</option>
           <option value="processed">Processed</option>
           <option value="pending">Pending</option>
@@ -42,12 +42,12 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Description</label>
-        <textarea name="description" rows="2" placeholder="Description..."></textarea>
+        <label for="evidence-description">Description</label>
+        <textarea name="description" id="evidence-description" rows="2" placeholder="Description..."></textarea>
       </div>
       <div class="form-group" style="max-width:100px">
-        <label>Source ID</label>
-        <input type="number" name="source_id" placeholder="#">
+        <label for="evidence-source-id">Source ID</label>
+        <input type="number" name="source_id" id="evidence-source-id" placeholder="#">
       </div>
     </div>
     <div class="flex gap-8">
@@ -61,16 +61,16 @@
   <table class="data-table">
     <thead>
       <tr>
-        <th class="id-col">#</th>
-        <th>Name</th>
-        <th class="type-col">Type</th>
-        <th style="width:110px">Status</th>
-        <th>Description</th>
+        <th scope="col" class="id-col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col" class="type-col">Type</th>
+        <th scope="col" style="width:110px">Status</th>
+        <th scope="col">Description</th>
       </tr>
     </thead>
     <tbody>
       {% for item in items %}
-      <tr hx-get="/evidence/{{ item.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+      <tr hx-get="/evidence/{{ item.id }}" hx-target="#detail-panel" hx-swap="innerHTML" tabindex="0">
         <td class="id-col">{{ item.id }}</td>
         <td>{{ item.name }}</td>
         <td class="type-col">{{ item.evidence_type }}</td>

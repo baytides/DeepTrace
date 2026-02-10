@@ -1,6 +1,6 @@
 <div class="detail-header">
   <h3>Hypothesis #{{ hypothesis.id }}</h3>
-  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+  <button class="detail-close" aria-label="Close detail panel" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
 </div>
 
 <div style="margin-bottom:16px">
@@ -8,34 +8,34 @@
 </div>
 
 <div style="margin-bottom:12px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">DESCRIPTION</h4>
   <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">{{ hypothesis.description }}</div>
 </div>
 
 {% if hypothesis.supporting_evidence %}
 <div style="margin-bottom:12px">
-  <div style="color:var(--accent-green);font-size:11px;margin-bottom:4px">SUPPORTING EVIDENCE</div>
+  <h4 style="color:var(--accent-green);font-size:11px;margin:0 0 4px 0;font-weight:normal">SUPPORTING EVIDENCE</h4>
   <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.supporting_evidence }}</div>
 </div>
 {% endif %}
 
 {% if hypothesis.contradicting_evidence %}
 <div style="margin-bottom:12px">
-  <div style="color:var(--accent-red);font-size:11px;margin-bottom:4px">CONTRADICTING EVIDENCE</div>
+  <h4 style="color:var(--accent-red);font-size:11px;margin:0 0 4px 0;font-weight:normal">CONTRADICTING EVIDENCE</h4>
   <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.contradicting_evidence }}</div>
 </div>
 {% endif %}
 
 {% if hypothesis.open_questions %}
 <div style="margin-bottom:12px">
-  <div style="color:var(--accent-orange);font-size:11px;margin-bottom:4px">OPEN QUESTIONS</div>
+  <h4 style="color:var(--accent-orange);font-size:11px;margin:0 0 4px 0;font-weight:normal">OPEN QUESTIONS</h4>
   <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ hypothesis.open_questions }}</div>
 </div>
 {% endif %}
 
 {% if hypothesis.key_assumptions %}
 <div style="margin-bottom:12px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">KEY ASSUMPTIONS</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">KEY ASSUMPTIONS</h4>
   <div style="font-size:13px;color:var(--text-secondary)">{{ hypothesis.key_assumptions }}</div>
 </div>
 {% endif %}

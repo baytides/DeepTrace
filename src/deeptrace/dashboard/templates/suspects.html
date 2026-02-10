@@ -1,18 +1,18 @@
 <div class="section-header">
   <h1 class="section-title">Suspect Pools</h1>
-  <button class="btn btn-primary" onclick="document.getElementById('add-pool-form').style.display = document.getElementById('add-pool-form').style.display === 'none' ? 'block' : 'none'">+ Add Pool</button>
+  <button class="btn btn-primary" aria-expanded="false" aria-controls="add-pool-form" onclick="var f=document.getElementById('add-pool-form'); var show=f.style.display==='none'; f.style.display=show?'block':'none'; this.setAttribute('aria-expanded', show)">+ Add Pool</button>
 </div>
 
 <div id="add-pool-form" class="add-form-container" style="display:none">
   <form class="add-form" hx-post="/suspects" hx-target="#main-content" hx-swap="innerHTML">
     <div class="form-row">
       <div class="form-group">
-        <label>Category</label>
-        <input type="text" name="category" required placeholder="e.g., Physical capability to transport victim">
+        <label for="pool-category">Category</label>
+        <input type="text" name="category" id="pool-category" required placeholder="e.g., Physical capability to transport victim">
       </div>
       <div class="form-group" style="max-width:140px">
-        <label>Priority</label>
-        <select name="priority">
+        <label for="pool-priority">Priority</label>
+        <select name="priority" id="pool-priority">
           <option value="high">High</option>
           <option value="medium" selected>Medium</option>
           <option value="low">Low</option>
@@ -21,14 +21,14 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Description</label>
-        <textarea name="description" rows="2" required placeholder="Category description..."></textarea>
+        <label for="pool-description">Description</label>
+        <textarea name="description" id="pool-description" rows="2" required placeholder="Category description..."></textarea>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Supporting Evidence</label>
-        <textarea name="supporting_evidence" rows="2" placeholder="Evidence that supports this category..."></textarea>
+        <label for="pool-supporting">Supporting Evidence</label>
+        <textarea name="supporting_evidence" id="pool-supporting" rows="2" placeholder="Evidence that supports this category..."></textarea>
       </div>
     </div>
     <div class="flex gap-8">
@@ -40,7 +40,7 @@
 
 {% if pools %}
   {% for pool in pools %}
-  <div class="card" hx-get="/suspects/{{ pool.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+  <div class="card" hx-get="/suspects/{{ pool.id }}" hx-target="#detail-panel" hx-swap="innerHTML" tabindex="0">
     <div class="card-header">
       <span class="card-title">[{{ pool.id }}] {{ pool.category }}</span>
       <span class="priority-label priority-label-{{ pool.priority }}">{{ pool.priority }}</span>

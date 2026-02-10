@@ -1,6 +1,6 @@
 <div class="detail-header">
   <h3>Evidence #{{ item.id }}</h3>
-  <button class="detail-close" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
+  <button class="detail-close" aria-label="Close detail panel" onclick="document.getElementById('detail-panel').textContent=''">&times;</button>
 </div>
 
 <div style="margin-bottom:16px">
@@ -9,13 +9,13 @@
 </div>
 
 <div style="margin-bottom:12px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">NAME</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">NAME</h4>
   <div style="font-size:14px;font-weight:600">{{ item.name }}</div>
 </div>
 
 {% if item.description %}
 <div style="margin-bottom:12px">
-  <div style="color:var(--text-dim);font-size:11px;margin-bottom:4px">DESCRIPTION</div>
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 4px 0;font-weight:normal">DESCRIPTION</h4>
   <div style="font-size:13px;color:var(--text-secondary);white-space:pre-wrap">{{ item.description }}</div>
 </div>
 {% endif %}

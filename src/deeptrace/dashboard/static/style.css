@@ -74,6 +74,28 @@
   --topbar-h: 52px;
 }
 
+/* === Skip Link === */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.75rem 1.5rem;
+  background: var(--cyan);
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid var(--text-bright);
+  outline-offset: 2px;
+}
+
 /* === Reset === */
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1119,3 +1141,57 @@ body::after {
 .attached-files-grid { display:flex; flex-wrap:wrap; gap:8px; }
 .attached-file-thumb { width:40px; height:40px; border-radius:3px; object-fit:cover; border:1px solid var(--border); cursor:pointer; transition:border-color 0.2s; }
 .attached-file-thumb:hover { border-color:var(--cyan); }
+
+/* === Global Focus Indicators (WCAG 2.4.7 / 2.4.13 AAA) === */
+
+:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.pill:focus-visible,
+.nav-item:focus-visible,
+.card:focus-visible,
+.ach-cell:focus-visible,
+.detail-close:focus-visible,
+.theme-toggle:focus-visible,
+.btn-inline-icon:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--cyan-glow);
+}
+
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 0;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-glow);
+}
+
+/* === Reduced Motion (WCAG 2.3.3 AAA) === */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* === High Contrast Mode Support === */
+
+@media (forced-colors: active) {
+  .badge, .tier-label, .priority-label {
+    border: 1px solid currentColor;
+  }
+  .timeline-dot {
+    forced-color-adjust: none;
+  }
+  .nav-item.active {
+    border-left: 3px solid Highlight;
+  }
+}

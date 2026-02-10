@@ -4,13 +4,13 @@
       hx-swap="outerHTML">
   <input type="hidden" name="hypothesis_id" value="{{ h_id }}">
   <input type="hidden" name="evidence_id" value="{{ e_id }}">
-  <select name="consistency" autofocus>
+  <select name="consistency" aria-label="Consistency rating" autofocus>
     <option value="">—</option>
     <option value="C" {% if current.consistency == 'C' %}selected{% endif %}>C (Consistent)</option>
     <option value="I" {% if current.consistency == 'I' %}selected{% endif %}>I (Inconsistent)</option>
     <option value="N" {% if current.consistency == 'N' %}selected{% endif %}>N (Neutral)</option>
   </select>
-  <select name="diagnostic_weight">
+  <select name="diagnostic_weight" aria-label="Diagnostic weight">
     <option value="H" {% if current.diagnostic_weight == 'H' %}selected{% endif %}>H (High)</option>
     <option value="M" {% if current.diagnostic_weight == 'M' %}selected{% endif %}>M (Medium)</option>
     <option value="L" {% if current.diagnostic_weight == 'L' %}selected{% endif %}>L (Low)</option>

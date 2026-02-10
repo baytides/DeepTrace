@@ -6,6 +6,13 @@ import pytest
 
 from deeptrace.db import CaseDatabase
 
+try:
+    import flask  # noqa: F401
+
+    HAS_FLASK = True
+except ImportError:
+    HAS_FLASK = False
+
 
 @pytest.fixture()
 def db(tmp_path):
@@ -163,6 +170,7 @@ class TestAttachmentsSchema:
         assert "idx_attachment_links_entity" in names
 
 
+@pytest.mark.skipif(not HAS_FLASK, reason="Flask not installed (optional dashboard dependency)")
 class TestFilesRoute:
     """Test the dashboard files blueprint (requires Flask test client)."""
 

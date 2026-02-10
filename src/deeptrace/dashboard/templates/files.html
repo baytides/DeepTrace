@@ -1,6 +1,6 @@
 <div class="section-header">
   <h1 class="section-title">Files</h1>
-  <button class="btn btn-primary" onclick="document.getElementById('add-file-form').style.display = document.getElementById('add-file-form').style.display === 'none' ? 'block' : 'none'">+ Upload File</button>
+  <button class="btn btn-primary" aria-expanded="false" aria-controls="add-file-form" onclick="var f=document.getElementById('add-file-form'); var show=f.style.display==='none'; f.style.display=show?'block':'none'; this.setAttribute('aria-expanded', show)">+ Upload File</button>
 </div>
 
 <div class="filter-pills">
@@ -20,8 +20,8 @@
   <form class="add-form" hx-post="/files" hx-target="#main-content" hx-swap="innerHTML" hx-encoding="multipart/form-data">
     <div class="form-row">
       <div class="form-group">
-        <label>File</label>
-        <div id="drop-zone" class="drop-zone">
+        <label for="file-input">File</label>
+        <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Choose file to upload">
           <div class="drop-zone-text">Drag files here or click to browse</div>
         </div>
         <input type="file" id="file-input" name="file" style="display:none" required>
@@ -32,8 +32,8 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Description</label>
-        <input type="text" name="description" placeholder="Optional file description">
+        <label for="file-description">Description</label>
+        <input type="text" name="description" id="file-description" placeholder="Optional file description">
       </div>
     </div>
     <div class="flex gap-8">
@@ -46,7 +46,7 @@
 <div class="panel">
   <div class="file-gallery">
     {% for f in files %}
-    <div class="file-card" hx-get="/files/{{ f.id }}" hx-target="#detail-panel" hx-swap="innerHTML">
+    <div class="file-card" hx-get="/files/{{ f.id }}" hx-target="#detail-panel" hx-swap="innerHTML" tabindex="0">
       <div class="file-thumb">
         <img src="/files/{{ f.id }}/thumbnail" loading="lazy" alt="{{ f.filename }}">
       </div>

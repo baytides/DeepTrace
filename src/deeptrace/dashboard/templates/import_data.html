@@ -93,13 +93,14 @@
     <div class="import-grid">
       <!-- NamUs -->
       <div class="import-card">
-        <div class="import-icon">🔍</div>
+        <div class="import-icon" aria-hidden="true">🔍</div>
         <div class="status-badge status-active">Active</div>
         <h3 class="import-title">NamUs Database</h3>
         <p class="import-description">
           Import missing persons and unidentified persons cases from NamUs. Paste any NamUs case URL.
         </p>
         <div class="form-group">
+          <label for="namus_url">NamUs Case URL</label>
           <input type="url" id="namus_url" placeholder="https://namus.nij.ojp.gov/case/..." class="form-input">
         </div>
         <button onclick="importNamUs()" class="btn btn-primary" style="width: 100%;">
@@ -110,13 +111,14 @@
 
       <!-- FBI -->
       <div class="import-card">
-        <div class="import-icon">🕵️</div>
+        <div class="import-icon" aria-hidden="true">🕵️</div>
         <div class="status-badge status-active">Active</div>
         <h3 class="import-title">FBI Most Wanted</h3>
         <p class="import-description">
           Import cases directly from FBI Most Wanted pages. Paste any FBI.gov wanted/kidnap URL.
         </p>
         <div class="form-group">
+          <label for="fbi_url">FBI Case URL</label>
           <input type="url" id="fbi_url" placeholder="https://www.fbi.gov/wanted/..." class="form-input">
         </div>
         <button onclick="importFBI()" class="btn btn-primary" style="width: 100%;">
@@ -127,13 +129,14 @@
 
       <!-- CSV Import -->
       <div class="import-card">
-        <div class="import-icon">📊</div>
+        <div class="import-icon" aria-hidden="true">📊</div>
         <div class="status-badge status-planned">Planned</div>
         <h3 class="import-title">CSV Batch Import</h3>
         <p class="import-description">
           Upload a CSV file with multiple cases, evidence items, or timeline events for bulk import.
         </p>
         <div class="form-group">
+          <label for="csv_file">CSV File</label>
           <input type="file" id="csv_file" accept=".csv" class="form-input">
         </div>
         <button onclick="importCSV()" class="btn btn-secondary" style="width: 100%;" disabled>
@@ -146,13 +149,14 @@
 
       <!-- JSON Import -->
       <div class="import-card">
-        <div class="import-icon">📄</div>
+        <div class="import-icon" aria-hidden="true">📄</div>
         <div class="status-badge status-planned">Planned</div>
         <h3 class="import-title">JSON Import</h3>
         <p class="import-description">
           Import structured case data from JSON files exported from other investigation tools.
         </p>
         <div class="form-group">
+          <label for="json_file">JSON File</label>
           <input type="file" id="json_file" accept=".json" class="form-input">
         </div>
         <button onclick="importJSON()" class="btn btn-secondary" style="width: 100%;" disabled>
@@ -165,13 +169,14 @@
 
       <!-- NCMEC -->
       <div class="import-card">
-        <div class="import-icon">👶</div>
+        <div class="import-icon" aria-hidden="true">👶</div>
         <div class="status-badge status-active">Active</div>
         <h3 class="import-title">NCMEC Missing Kids</h3>
         <p class="import-description">
           Import missing children cases from NCMEC. Paste any NCMEC poster or case URL.
         </p>
         <div class="form-group">
+          <label for="ncmec_url">NCMEC Case URL</label>
           <input type="url" id="ncmec_url" placeholder="https://www.missingkids.org/poster/..." class="form-input">
         </div>
         <button onclick="importNCMEC()" class="btn btn-primary" style="width: 100%;">
@@ -182,13 +187,14 @@
 
       <!-- Doe Network -->
       <div class="import-card">
-        <div class="import-icon">🌐</div>
+        <div class="import-icon" aria-hidden="true">🌐</div>
         <div class="status-badge status-active">Active</div>
         <h3 class="import-title">The Doe Network</h3>
         <p class="import-description">
           Import cold cases from The Doe Network. Paste any Doe Network case URL.
         </p>
         <div class="form-group">
+          <label for="doe_url">Doe Network Case URL</label>
           <input type="url" id="doe_url" placeholder="https://www.doenetwork.org/cases/..." class="form-input">
         </div>
         <button onclick="importDoeNetwork()" class="btn btn-primary" style="width: 100%;">
@@ -200,7 +206,7 @@
 
     <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border-primary);">
       <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
-        📋 Import Roadmap
+        <span aria-hidden="true">📋</span> Import Roadmap
       </h4>
       <ul style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.8; padding-left: 1.5rem;">
         <li>NamUs API integration for missing/unidentified persons</li>

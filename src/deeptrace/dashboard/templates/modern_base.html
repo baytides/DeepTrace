@@ -116,83 +116,95 @@
   </style>
 </head>
 <body hx-boost="true">
+  <!-- Skip navigation -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Accessibility Controls -->
-  <div class="accessibility-bar">
-    <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500;">Font:</span>
-    <div class="font-size-control">
-      <button class="font-size-btn" onclick="setFontSize('small')" title="Small">A</button>
-      <button class="font-size-btn active" onclick="setFontSize('medium')" title="Medium">A</button>
-      <button class="font-size-btn" onclick="setFontSize('large')" title="Large">A</button>
+  <div class="accessibility-bar" role="toolbar" aria-label="Accessibility controls">
+    <span id="font-size-label" style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500;">Font:</span>
+    <div class="font-size-control" role="radiogroup" aria-labelledby="font-size-label">
+      <button class="font-size-btn" onclick="setFontSize('small')" title="Small font size" aria-label="Small font size" role="radio" aria-checked="false">A</button>
+      <button class="font-size-btn active" onclick="setFontSize('medium')" title="Medium font size" aria-label="Medium font size" role="radio" aria-checked="true">A</button>
+      <button class="font-size-btn" onclick="setFontSize('large')" title="Large font size" aria-label="Large font size" role="radio" aria-checked="false">A</button>
     </div>
   </div>
 
   <div class="app-container">
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" aria-label="Application sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
           <span>Deep</span><span class="sidebar-logo-accent">Trace</span>
         </div>
         <div class="case-badge">
-          <div class="case-badge-icon"></div>
+          <div class="case-badge-icon" aria-hidden="true"></div>
           <span>{{ case }}</span>
         </div>
       </div>
 
-      <nav class="sidebar-nav">
+      <nav class="sidebar-nav" aria-label="Main navigation">
         <div class="nav-section">
-          <div class="nav-section-title">Overview</div>
+          <div class="nav-section-title" id="nav-overview">Overview</div>
           <a href="/" class="nav-item {% if page == 'dashboard' %}active{% endif %}"
-             hx-get="/" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">📊</span>
+             hx-get="/" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'dashboard' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128202;</span>
             <span>Dashboard</span>
           </a>
         </div>
 
         <div class="nav-section">
-          <div class="nav-section-title">Data</div>
+          <div class="nav-section-title" id="nav-data">Data</div>
           <a href="/sources" class="nav-item {% if page == 'sources' %}active{% endif %}"
-             hx-get="/sources" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">📑</span>
+             hx-get="/sources" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'sources' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128209;</span>
             <span>Sources</span>
           </a>
           <a href="/evidence" class="nav-item {% if page == 'evidence' %}active{% endif %}"
-             hx-get="/evidence" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">🔍</span>
+             hx-get="/evidence" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'evidence' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128269;</span>
             <span>Evidence</span>
           </a>
           <a href="/timeline" class="nav-item {% if page == 'timeline' %}active{% endif %}"
-             hx-get="/timeline" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">📅</span>
+             hx-get="/timeline" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'timeline' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128197;</span>
             <span>Timeline</span>
           </a>
           <a href="/files" class="nav-item {% if page == 'files' %}active{% endif %}"
-             hx-get="/files" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">📎</span>
+             hx-get="/files" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'files' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128206;</span>
             <span>Files</span>
           </a>
         </div>
 
         <div class="nav-section">
-          <div class="nav-section-title">Analysis</div>
+          <div class="nav-section-title" id="nav-analysis">Analysis</div>
           <a href="/hypotheses" class="nav-item {% if page == 'hypotheses' %}active{% endif %}"
-             hx-get="/hypotheses" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">💡</span>
+             hx-get="/hypotheses" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'hypotheses' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128161;</span>
             <span>Hypotheses</span>
           </a>
           <a href="/suspects" class="nav-item {% if page == 'suspects' %}active{% endif %}"
-             hx-get="/suspects" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">👤</span>
+             hx-get="/suspects" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'suspects' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128100;</span>
             <span>Suspects</span>
           </a>
           <a href="/network" class="nav-item {% if page == 'network' %}active{% endif %}"
-             hx-get="/network" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">🕸️</span>
+             hx-get="/network" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'network' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128376;&#65039;</span>
             <span>Network</span>
           </a>
           <a href="/ach" class="nav-item {% if page == 'ach' %}active{% endif %}"
-             hx-get="/ach" hx-target="#main-content" hx-push-url="true">
-            <span class="nav-item-icon">📋</span>
+             hx-get="/ach" hx-target="#main-content" hx-push-url="true"
+             {% if page == 'ach' %}aria-current="page"{% endif %}>
+            <span class="nav-item-icon" aria-hidden="true">&#128203;</span>
             <span>ACH Matrix</span>
           </a>
         </div>
@@ -200,12 +212,12 @@
 
       <div class="sidebar-footer">
         <a href="/cases" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem; text-decoration: none; justify-content: center;">
-          <span>🔄</span>
+          <span aria-hidden="true">&#128260;</span>
           <span>Switch Case</span>
         </a>
-        <button class="theme-toggle" onclick="toggleTheme()">
-          <span class="theme-icon icon-light">☀️</span>
-          <span class="theme-icon icon-dark">🌙</span>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle between light and dark theme">
+          <span class="theme-icon icon-light" aria-hidden="true">&#9728;&#65039;</span>
+          <span class="theme-icon icon-dark" aria-hidden="true">&#127769;</span>
           <span style="flex: 1; text-align: left;">
             <span class="icon-light">Light Mode</span>
             <span class="icon-dark">Dark Mode</span>
@@ -216,7 +228,7 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <div id="main-content">
+      <div id="main-content" aria-live="polite">
         {% if page == 'dashboard' %}
           {% include "modern_dashboard.html" %}
         {% elif page == 'sources' %}
