@@ -173,6 +173,9 @@ document.body.addEventListener('htmx:afterSwap', function() {
   if (!dropZone || !fileInput) return;
 
   dropZone.addEventListener('click', function() { fileInput.click(); });
+  dropZone.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+  });
 
   fileInput.addEventListener('change', function() {
     if (fileInput.files.length > 0) {
@@ -200,21 +203,48 @@ document.body.addEventListener('htmx:afterSwap', function() {
   });
 });
 
-/* === Image Lightbox === */
+/* === Image Lightbox (accessible) === */
 function openLightbox(src) {
+  var previousFocus = document.activeElement;
   var overlay = document.createElement('div');
   overlay.className = 'lightbox-overlay';
-  overlay.onclick = function() { document.body.removeChild(overlay); };
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', 'Image preview');
+
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'lightbox-close';
+  closeBtn.setAttribute('aria-label', 'Close image preview');
+  closeBtn.textContent = '\u00D7';
+  closeBtn.style.cssText = 'position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,0.7);color:#fff;border:none;font-size:2rem;width:3rem;height:3rem;border-radius:50%;cursor:pointer;z-index:10001;display:flex;align-items:center;justify-content:center;';
+
   var img = document.createElement('img');
   img.src = src;
+  img.alt = 'Full size preview';
   img.onclick = function(e) { e.stopPropagation(); };
-  overlay.appendChild(img);
-  document.body.appendChild(overlay);
-  function esc(e) {
-    if (e.key === 'Escape' && document.querySelector('.lightbox-overlay')) {
+
+  function closeLightbox() {
+    if (document.body.contains(overlay)) {
       document.body.removeChild(overlay);
-      document.removeEventListener('keydown', esc);
+      document.removeEventListener('keydown', handleKeys);
+      if (previousFocus) previousFocus.focus();
     }
   }
-  document.addEventListener('keydown', esc);
+
+  function handleKeys(e) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      closeBtn.focus();
+    }
+  }
+
+  overlay.onclick = closeLightbox;
+  closeBtn.onclick = function(e) { e.stopPropagation(); closeLightbox(); };
+
+  overlay.appendChild(closeBtn);
+  overlay.appendChild(img);
+  document.body.appendChild(overlay);
+  document.addEventListener('keydown', handleKeys);
+  closeBtn.focus();
 }

@@ -1,23 +1,25 @@
-# Install the package itself (makes deeptrace module available)
--e .
+# DeepTrace deployment requirements for Azure App Service
+# This file is used by Oryx build during Azure deployment
 
-# Web framework
-Flask==3.1.0
-Werkzeug==3.1.3
+# Core web framework
+Flask>=3.0.0
+Werkzeug>=3.0.0
+jinja2>=3.1.0
 
 # WSGI server
-gunicorn==23.0.0
+gunicorn>=21.0.0
 
-# CLI framework
-typer==0.15.1
-click==8.1.8
+# CLI framework (needed by deeptrace package imports)
+typer>=0.15.0
+rich>=13.0.0
+click>=8.1.0
 
-# HTTP client for Carl AI integration
-requests==2.32.3
-httpx==0.28.1
+# HTTP clients
+requests>=2.31.0
+httpx>=0.28.0
 
-# Database
-# No external deps - using built-in sqlite3
+# Network visualization (used by dashboard)
+networkx>=3.1
 
-# Development
-python-dotenv==1.0.1
+# Environment
+python-dotenv>=1.0.0
