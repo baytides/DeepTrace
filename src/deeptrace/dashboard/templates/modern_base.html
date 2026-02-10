@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepTrace — {{ case }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='modern-style.css') }}">
+  <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='theme-toggle.js') }}"></script>
+  <style>
+    /* Override specific styles for dashboard pages */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      background: var(--bg-secondary);
+      border-bottom: 2px solid var(--border-primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+    }
+
+    .data-table td {
+      padding: 0.875rem 1rem;
+      border-bottom: 1px solid var(--border-primary);
+      color: var(--text-primary);
+    }
+
+    .data-table tr {
+      transition: background 0.15s ease;
+      cursor: pointer;
+    }
+
+    .data-table tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .badge-processed { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .badge-pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+    .badge-missing { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+
+    .panel {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+      margin-bottom: 1rem;
+    }
+
+    .accessibility-bar {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      z-index: 1001;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .font-size-control {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    .font-size-btn {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid var(--border-primary);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+      font-family: var(--font-base);
+    }
+
+    .font-size-btn:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .font-size-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body hx-boost="true">
+  <!-- Accessibility Controls -->
+  <div class="accessibility-bar">
+    <span style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500;">Font:</span>
+    <div class="font-size-control">
+      <button class="font-size-btn" onclick="setFontSize('small')" title="Small">A</button>
+      <button class="font-size-btn active" onclick="setFontSize('medium')" title="Medium">A</button>
+      <button class="font-size-btn" onclick="setFontSize('large')" title="Large">A</button>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span>Deep</span><span class="sidebar-logo-accent">Trace</span>
+        </div>
+        <div class="case-badge">
+          <div class="case-badge-icon"></div>
+          <span>{{ case }}</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <a href="/" class="nav-item {% if page == 'dashboard' %}active{% endif %}"
+             hx-get="/" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Data</div>
+          <a href="/sources" class="nav-item {% if page == 'sources' %}active{% endif %}"
+             hx-get="/sources" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">📑</span>
+            <span>Sources</span>
+          </a>
+          <a href="/evidence" class="nav-item {% if page == 'evidence' %}active{% endif %}"
+             hx-get="/evidence" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">🔍</span>
+            <span>Evidence</span>
+          </a>
+          <a href="/timeline" class="nav-item {% if page == 'timeline' %}active{% endif %}"
+             hx-get="/timeline" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">📅</span>
+            <span>Timeline</span>
+          </a>
+          <a href="/files" class="nav-item {% if page == 'files' %}active{% endif %}"
+             hx-get="/files" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">📎</span>
+            <span>Files</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Analysis</div>
+          <a href="/hypotheses" class="nav-item {% if page == 'hypotheses' %}active{% endif %}"
+             hx-get="/hypotheses" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">💡</span>
+            <span>Hypotheses</span>
+          </a>
+          <a href="/suspects" class="nav-item {% if page == 'suspects' %}active{% endif %}"
+             hx-get="/suspects" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">👤</span>
+            <span>Suspects</span>
+          </a>
+          <a href="/network" class="nav-item {% if page == 'network' %}active{% endif %}"
+             hx-get="/network" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">🕸️</span>
+            <span>Network</span>
+          </a>
+          <a href="/ach" class="nav-item {% if page == 'ach' %}active{% endif %}"
+             hx-get="/ach" hx-target="#main-content" hx-push-url="true">
+            <span class="nav-item-icon">📋</span>
+            <span>ACH Matrix</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="/cases" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem; text-decoration: none; justify-content: center;">
+          <span>🔄</span>
+          <span>Switch Case</span>
+        </a>
+        <button class="theme-toggle" onclick="toggleTheme()">
+          <span class="theme-icon icon-light">☀️</span>
+          <span class="theme-icon icon-dark">🌙</span>
+          <span style="flex: 1; text-align: left;">
+            <span class="icon-light">Light Mode</span>
+            <span class="icon-dark">Dark Mode</span>
+          </span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="main-content">
+        {% if page == 'dashboard' %}
+          {% include "modern_dashboard.html" %}
+        {% elif page == 'sources' %}
+          {% include "sources.html" %}
+        {% elif page == 'evidence' %}
+          {% include "evidence.html" %}
+        {% elif page == 'timeline' %}
+          {% include "timeline.html" %}
+        {% elif page == 'hypotheses' %}
+          {% include "hypotheses.html" %}
+        {% elif page == 'suspects' %}
+          {% include "suspects.html" %}
+        {% elif page == 'network' %}
+          {% include "network.html" %}
+        {% elif page == 'files' %}
+          {% include "files.html" %}
+        {% elif page == 'ach' %}
+          {% include "ach.html" %}
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  {% if page == 'network' %}
+  <script src="{{ url_for('static', filename='vis-network.min.js') }}"></script>
+  {% endif %}
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+  <script>
+    // Font size accessibility
+    function setFontSize(size) {
+      const html = document.documentElement;
+      const buttons = document.querySelectorAll('.font-size-btn');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      if (size === 'small') {
+        html.style.fontSize = '14px';
+        buttons[0].classList.add('active');
+      } else if (size === 'medium') {
+        html.style.fontSize = '16px';
+        buttons[1].classList.add('active');
+      } else if (size === 'large') {
+        html.style.fontSize = '18px';
+        buttons[2].classList.add('active');
+      }
+
+      localStorage.setItem('deeptrace-font-size', size);
+    }
+
+    // Load saved font size on page load
+    const savedFontSize = localStorage.getItem('deeptrace-font-size') || 'medium';
+    setFontSize(savedFontSize);
+  </script>
+</body>
+</html>

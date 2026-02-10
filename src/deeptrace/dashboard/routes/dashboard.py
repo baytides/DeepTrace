@@ -1,12 +1,18 @@
 """Dashboard home/overview routes."""
 
-from flask import Blueprint, current_app, render_template, request
+from flask import Blueprint, current_app, redirect, render_template, request
 
 bp = Blueprint("dashboard", __name__)
 
 
 @bp.route("/")
 def index():
+    # Check if user has selected a case
+    case_slug = current_app.get_current_case_slug()
+    if not case_slug:
+        # No case selected, redirect to selector
+        return redirect("/cases")
+
     db = current_app.get_db()
     try:
         stats = {
@@ -50,14 +56,12 @@ def index():
         recent.sort(key=lambda x: x["ts"] or "", reverse=True)
         recent = recent[:10]
 
-        case_slug = current_app.config["CASE_SLUG"]
-
         if request.headers.get("HX-Request"):
             return render_template(
-                "dashboard.html", stats=stats, recent=recent, case=case_slug
+                "modern_dashboard.html", stats=stats, recent=recent, case=case_slug
             )
         return render_template(
-            "base.html",
+            "modern_base.html",
             page="dashboard",
             stats=stats,
             recent=recent,

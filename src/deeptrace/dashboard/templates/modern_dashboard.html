@@ -1,0 +1,57 @@
+<div class="content-header">
+  <h1 class="content-title">Dashboard</h1>
+  <p class="content-subtitle">Overview of your case investigation</p>
+</div>
+
+<div class="content-body">
+  <div class="stats-grid">
+    {% for key, label in [
+      ('sources', 'Sources'),
+      ('evidence', 'Evidence Items'),
+      ('events', 'Timeline Events'),
+      ('hypotheses', 'Hypotheses'),
+      ('suspects', 'Suspect Pools'),
+      ('entities', 'Entities'),
+      ('relationships', 'Relationships'),
+      ('ach_scores', 'ACH Scores'),
+      ('files', 'Attachments')
+    ] %}
+    <div class="stat-card animate-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+      <div class="stat-label">{{ label }}</div>
+      <div class="stat-value {% if stats[key] > 0 %}stat-value-accent{% endif %}">
+        {{ stats[key] }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="card animate-in" style="animation-delay: 0.45s;">
+    <div class="card-header">
+      <h2 class="card-title">Recent Activity</h2>
+    </div>
+    <div class="card-body">
+      {% if recent %}
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          {% for item in recent %}
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: var(--radius-md);">
+            <div style="flex-shrink: 0; width: 8px; height: 8px; background: var(--accent); border-radius: 50%;"></div>
+            <div style="flex: 1;">
+              <div style="font-size: 0.75rem; color: var(--text-tertiary); font-weight: 500; text-transform: uppercase; margin-bottom: 0.25rem;">
+                {{ item.type }}
+              </div>
+              <div style="color: var(--text-primary); font-size: 0.9375rem;">
+                {{ item.label }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div style="text-align: center; padding: 3rem 1rem; color: var(--text-tertiary);">
+          <div style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;">📝</div>
+          <p style="font-size: 0.9375rem;">No activity yet. Start by adding sources to your case.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

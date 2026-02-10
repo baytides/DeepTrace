@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepTrace — Import Data</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='modern-style.css') }}">
+  <script src="{{ url_for('static', filename='theme-toggle.js') }}"></script>
+  <style>
+    .import-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+    }
+
+    .import-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .import-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .import-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+
+    .import-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .import-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .import-description {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .status-planned {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .status-active {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+  </style>
+</head>
+<body>
+  <div class="import-container">
+    <div style="margin-bottom: 2rem;">
+      <a href="/cases" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">
+        ← Back to Cases
+      </a>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h1 style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">
+        Import Cold Case Data
+      </h1>
+      <p style="color: var(--text-secondary); font-size: 0.9375rem;">
+        Connect to external databases and import case information
+      </p>
+    </div>
+
+    <div class="import-grid">
+      <!-- NamUs -->
+      <div class="import-card">
+        <div class="import-icon">🔍</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">NamUs Database</h3>
+        <p class="import-description">
+          Import missing persons and unidentified persons cases from the National Missing and Unidentified Persons System.
+        </p>
+        <div class="form-group">
+          <input type="text" id="namus_id" placeholder="NamUs Case Number" class="form-input">
+        </div>
+        <button onclick="importNamUs()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Import from NamUs
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          API integration coming soon
+        </small>
+      </div>
+
+      <!-- FBI -->
+      <div class="import-card">
+        <div class="import-icon">🕵️</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">FBI Most Wanted</h3>
+        <p class="import-description">
+          Connect to FBI Most Wanted and ViCAP databases for violent crime cases and wanted persons.
+        </p>
+        <div class="form-group">
+          <input type="text" id="fbi_id" placeholder="FBI Case ID" class="form-input">
+        </div>
+        <button onclick="importFBI()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Import from FBI
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          API integration coming soon
+        </small>
+      </div>
+
+      <!-- CSV Import -->
+      <div class="import-card">
+        <div class="import-icon">📊</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">CSV Batch Import</h3>
+        <p class="import-description">
+          Upload a CSV file with multiple cases, evidence items, or timeline events for bulk import.
+        </p>
+        <div class="form-group">
+          <input type="file" id="csv_file" accept=".csv" class="form-input">
+        </div>
+        <button onclick="importCSV()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Upload CSV
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          Parser coming soon
+        </small>
+      </div>
+
+      <!-- JSON Import -->
+      <div class="import-card">
+        <div class="import-icon">📄</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">JSON Import</h3>
+        <p class="import-description">
+          Import structured case data from JSON files exported from other investigation tools.
+        </p>
+        <div class="form-group">
+          <input type="file" id="json_file" accept=".json" class="form-input">
+        </div>
+        <button onclick="importJSON()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Upload JSON
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          Parser coming soon
+        </small>
+      </div>
+
+      <!-- NCMEC -->
+      <div class="import-card">
+        <div class="import-icon">👶</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">NCMEC Missing Kids</h3>
+        <p class="import-description">
+          Import missing children cases from the National Center for Missing & Exploited Children.
+        </p>
+        <div class="form-group">
+          <input type="text" id="ncmec_id" placeholder="NCMEC Case ID" class="form-input">
+        </div>
+        <button onclick="importNCMEC()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Import from NCMEC
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          API integration coming soon
+        </small>
+      </div>
+
+      <!-- Doe Network -->
+      <div class="import-card">
+        <div class="import-icon">🌐</div>
+        <div class="status-badge status-planned">Planned</div>
+        <h3 class="import-title">The Doe Network</h3>
+        <p class="import-description">
+          Import cold cases from The Doe Network, a volunteer organization for unidentified persons.
+        </p>
+        <div class="form-group">
+          <input type="text" id="doe_id" placeholder="Doe Network Case ID" class="form-input">
+        </div>
+        <button onclick="importDoeNetwork()" class="btn btn-secondary" style="width: 100%;" disabled>
+          Import from Doe Network
+        </button>
+        <small style="display: block; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-tertiary);">
+          API integration coming soon
+        </small>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: var(--radius-lg); border: 1px solid var(--border-primary);">
+      <h4 style="font-size: 0.875rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+        📋 Import Roadmap
+      </h4>
+      <ul style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.8; padding-left: 1.5rem;">
+        <li>NamUs API integration for missing/unidentified persons</li>
+        <li>FBI ViCAP database connection</li>
+        <li>CSV/JSON bulk import with field mapping</li>
+        <li>NCMEC missing children database</li>
+        <li>Doe Network web scraping (with permission)</li>
+        <li>Custom API endpoints for third-party tools</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function showNotImplemented(source) {
+      alert(`${source} integration is planned but not yet implemented. This feature will allow automatic import of case data directly into DeepTrace.`);
+    }
+
+    function importNamUs() { showNotImplemented('NamUs'); }
+    function importFBI() { showNotImplemented('FBI'); }
+    function importCSV() { showNotImplemented('CSV Import'); }
+    function importJSON() { showNotImplemented('JSON Import'); }
+    function importNCMEC() { showNotImplemented('NCMEC'); }
+    function importDoeNetwork() { showNotImplemented('Doe Network'); }
+  </script>
+</body>
+</html>

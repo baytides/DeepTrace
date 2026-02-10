@@ -1,0 +1,21 @@
+{
+  "name": "DeepTrace",
+  "runtime": "python",
+  "runtimeVersion": "3.11",
+  "startupCommand": "gunicorn wsgi:app --bind=0.0.0.0:8000 --timeout 600",
+  "appSettings": [
+    {
+      "name": "FLASK_ENV",
+      "value": "production"
+    },
+    {
+      "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+      "value": "true"
+    },
+    {
+      "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+      "value": "7"
+    }
+  ],
+  "linuxFxVersion": "PYTHON|3.11"
+}

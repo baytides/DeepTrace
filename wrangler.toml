@@ -1,0 +1,23 @@
+# Cloudflare Pages Configuration for DeepTrace
+# Updated for wrangler 4.63.0
+
+name = "deeptrace"
+pages_build_output_dir = "."
+compatibility_date = "2026-02-01"
+
+# For Cloudflare D1 Database (SQLite-compatible)
+[[d1_databases]]
+binding = "DB"
+database_name = "deeptrace-db"
+database_id = "75b40646-51e2-4bda-be4e-36f849e4b23b"
+
+# For file storage
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "deeptrace-files"
+preview_bucket_name = "deeptrace-files-preview"
+
+# Environment variables
+[vars]
+FLASK_ENV = "production"
+PYTHON_VERSION = "3.11"
