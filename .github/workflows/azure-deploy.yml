@@ -52,7 +52,10 @@ jobs:
         az webapp config appsettings set \
           --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
           --name ${{ env.AZURE_WEBAPP_NAME }} \
-          --settings PYTHONPATH="/home/site/wwwroot/src"
+          --settings \
+            PYTHONPATH="/home/site/wwwroot/src" \
+            CARL_API_URL="https://ai.baytides.org/api/generate" \
+            CARL_DEFAULT_MODEL="qwen2.5:3b-instruct"
 
     - name: Deploy to Azure Web App
       run: |

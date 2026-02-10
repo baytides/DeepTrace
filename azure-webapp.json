@@ -15,6 +15,14 @@
     {
       "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
       "value": "7"
+    },
+    {
+      "name": "CARL_API_URL",
+      "value": "https://ai.baytides.org/api/generate"
+    },
+    {
+      "name": "CARL_DEFAULT_MODEL",
+      "value": "qwen2.5:3b-instruct"
     }
   ],
   "linuxFxVersion": "PYTHON|3.11"
