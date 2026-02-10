@@ -1,0 +1,93 @@
+<div style="padding:12px 0">
+  <h4 style="margin:0 0 12px;color:var(--text-primary)">AI Cross-Reference Results</h4>
+
+  {% if result.summary %}
+  <div style="margin-bottom:16px;padding:10px 12px;background:rgba(59,130,246,0.1);border-radius:6px;font-size:13px;color:var(--text-secondary);line-height:1.5">
+    {{ result.summary }}
+  </div>
+  {% endif %}
+
+  {% if result.duplicates %}
+  <div style="margin-bottom:16px">
+    <h5 style="margin:0 0 8px;font-size:12px;color:var(--accent-yellow,#eab308)">
+      &#9888; Potential Duplicates ({{ result.duplicates|length }})
+    </h5>
+    {% for dup in result.duplicates %}
+    <div style="padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-weight:600;color:var(--text-primary)">{{ dup.new_item }}</span>
+        <span class="badge" style="font-size:10px">{{ dup.confidence }} match</span>
+      </div>
+      <div style="color:var(--text-dim)">
+        Matches existing {{ dup.existing_type }} #{{ dup.existing_id }}: {{ dup.existing_item }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if result.inconsistencies %}
+  <div style="margin-bottom:16px">
+    <h5 style="margin:0 0 8px;font-size:12px;color:var(--accent-red,#ef4444)">
+      &#9888; Inconsistencies ({{ result.inconsistencies|length }})
+    </h5>
+    {% for inc in result.inconsistencies %}
+    <div style="padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-weight:600;color:var(--text-primary)">{{ inc.description }}</span>
+        <span class="badge" style="font-size:10px;background:{% if inc.severity == 'high' %}var(--accent-red,#ef4444){% elif inc.severity == 'medium' %}var(--accent-yellow,#eab308){% else %}var(--text-dim){% endif %};color:#fff">{{ inc.severity }}</span>
+      </div>
+      <div style="color:var(--text-dim);margin-top:4px">
+        <div><strong>Source says:</strong> {{ inc.source_claim }}</div>
+        <div><strong>Existing data:</strong> {{ inc.existing_claim }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if result.corroborations %}
+  <div style="margin-bottom:16px">
+    <h5 style="margin:0 0 8px;font-size:12px;color:var(--accent-green,#22c55e)">
+      &#10003; Corroborations ({{ result.corroborations|length }})
+    </h5>
+    {% for cor in result.corroborations %}
+    <div style="padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-weight:600;color:var(--text-primary)">{{ cor.description }}</span>
+        <span class="badge" style="font-size:10px;background:var(--accent-green,#22c55e);color:#fff">{{ cor.strength }}</span>
+      </div>
+      <div style="color:var(--text-dim);margin-top:4px">
+        <div><strong>This source:</strong> {{ cor.new_item }}</div>
+        <div><strong>Existing data:</strong> {{ cor.existing_item }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if result.new_connections %}
+  <div style="margin-bottom:16px">
+    <h5 style="margin:0 0 8px;font-size:12px;color:var(--accent-blue,#3b82f6)">
+      &#128279; New Connections ({{ result.new_connections|length }})
+    </h5>
+    {% for conn in result.new_connections %}
+    <div style="padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-weight:600;color:var(--text-primary)">{{ conn.description }}</span>
+        <span class="badge" style="font-size:10px">{{ conn.significance }}</span>
+      </div>
+      {% if conn.entities_involved %}
+      <div style="color:var(--text-dim);margin-top:4px">
+        Entities: {{ conn.entities_involved|join(' &rarr; ') }}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if not result.duplicates and not result.inconsistencies and not result.corroborations and not result.new_connections %}
+  <div style="padding:16px;text-align:center;color:var(--text-dim)">No cross-references found with existing case data.</div>
+  {% endif %}
+</div>

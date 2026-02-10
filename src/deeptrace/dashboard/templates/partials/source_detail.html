@@ -47,6 +47,36 @@
 
 {% include "partials/attached_files.html" %}
 
+<!-- AI Analysis -->
+<div style="border-top:1px solid var(--border);padding-top:16px;margin-top:16px">
+  <h4 style="color:var(--text-dim);font-size:11px;margin:0 0 8px 0;font-weight:normal">AI ANALYSIS</h4>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn btn-primary btn-sm" style="font-size:11px;padding:5px 12px"
+            hx-post="/sources/{{ source.id }}/ai/classify"
+            hx-target="#ai-analysis-area"
+            hx-swap="innerHTML"
+            hx-indicator="#ai-spinner">
+      Classify Source
+    </button>
+    <button class="btn btn-primary btn-sm" style="font-size:11px;padding:5px 12px"
+            hx-post="/sources/{{ source.id }}/ai/extract"
+            hx-target="#ai-analysis-area"
+            hx-swap="innerHTML"
+            hx-indicator="#ai-spinner">
+      Extract Data
+    </button>
+    <button class="btn btn-primary btn-sm" style="font-size:11px;padding:5px 12px"
+            hx-post="/sources/{{ source.id }}/ai/cross-reference"
+            hx-target="#ai-analysis-area"
+            hx-swap="innerHTML"
+            hx-indicator="#ai-spinner">
+      Cross-Reference
+    </button>
+  </div>
+  <span id="ai-spinner" class="htmx-indicator" style="color:var(--cyan);font-size:11px">Analyzing&hellip;</span>
+  <div id="ai-analysis-area"></div>
+</div>
+
 <div class="mt-16 flex gap-8">
   <button class="btn btn-danger btn-sm"
           hx-delete="/sources/{{ source.id }}"

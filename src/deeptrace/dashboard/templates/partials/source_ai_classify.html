@@ -1,0 +1,60 @@
+<div style="padding:12px 0">
+  <h4 style="margin:0 0 12px;color:var(--text-primary)">AI Classification Results</h4>
+
+  <form hx-post="/sources/{{ source.id }}/ai/apply-classify"
+        hx-target="#detail-panel" hx-swap="innerHTML">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px">Source Type</label>
+        <select name="source_type" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-secondary);color:var(--text-primary)">
+          {% for t in ['news','official','social','document','academic','witness','manual'] %}
+          <option value="{{ t }}" {% if result.source_type == t %}selected{% endif %}>{{ t|capitalize }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px">Source Reliability</label>
+        <select name="source_reliability" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-secondary);color:var(--text-primary)">
+          {% for r in ['A','B','C','D','E','F'] %}
+          <option value="{{ r }}" {% if result.source_reliability == r %}selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px">{{ result.source_reliability_reason or '' }}</div>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px">Information Accuracy</label>
+        <select name="information_accuracy" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-secondary);color:var(--text-primary)">
+          {% for a in ['1','2','3','4','5','6'] %}
+          <option value="{{ a }}" {% if result.information_accuracy == a %}selected{% endif %}>{{ a }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px">{{ result.information_accuracy_reason or '' }}</div>
+      </div>
+    </div>
+
+    {% if result.bias_assessment %}
+    <div style="margin-bottom:8px">
+      <label style="display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px">Bias Assessment</label>
+      <textarea name="bias_assessment" rows="2" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-secondary);color:var(--text-primary);font-size:13px">{{ result.bias_assessment }}</textarea>
+    </div>
+    {% endif %}
+
+    {% if result.access_assessment %}
+    <div style="margin-bottom:8px">
+      <label style="display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px">Access Assessment</label>
+      <textarea name="access_assessment" rows="2" style="width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;background:var(--bg-secondary);color:var(--text-primary);font-size:13px">{{ result.access_assessment }}</textarea>
+    </div>
+    {% endif %}
+
+    {% if result.credibility_notes %}
+    <div style="margin-bottom:12px;padding:8px;background:rgba(59,130,246,0.1);border-radius:4px;font-size:12px;color:var(--text-secondary)">
+      {{ result.credibility_notes }}
+    </div>
+    {% endif %}
+
+    <div class="flex gap-8">
+      <button type="submit" class="btn btn-primary btn-sm">Apply Classification</button>
+    </div>
+  </form>
+</div>

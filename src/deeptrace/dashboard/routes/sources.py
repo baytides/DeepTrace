@@ -6,7 +6,6 @@ import httpx
 from flask import Blueprint, current_app, jsonify, render_template, request
 
 from deeptrace.dashboard.routes.import_data import (
-    _extract_body_text,
     _extract_dates,
     _fetch_page,
     _guess_reliability,

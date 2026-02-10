@@ -64,6 +64,7 @@ def create_app(case_slug: str = "") -> Flask:
     from deeptrace.dashboard.routes.hypotheses import bp as hypotheses_bp
     from deeptrace.dashboard.routes.import_data import bp as import_bp
     from deeptrace.dashboard.routes.network import bp as network_bp
+    from deeptrace.dashboard.routes.source_ai import bp as source_ai_bp
     from deeptrace.dashboard.routes.sources import bp as sources_bp
     from deeptrace.dashboard.routes.suspects import bp as suspects_bp
     from deeptrace.dashboard.routes.timeline import bp as timeline_bp
@@ -75,6 +76,7 @@ def create_app(case_slug: str = "") -> Flask:
     # Main routes
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(sources_bp, url_prefix="/sources")
+    app.register_blueprint(source_ai_bp, url_prefix="/sources")
     app.register_blueprint(evidence_bp, url_prefix="/evidence")
     app.register_blueprint(files_bp, url_prefix="/files")
     app.register_blueprint(timeline_bp, url_prefix="/timeline")

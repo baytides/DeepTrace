@@ -1,0 +1,80 @@
+<div style="padding:12px 0">
+  <h4 style="margin:0 0 8px;color:var(--text-primary)">AI Extracted Items</h4>
+  <p style="font-size:12px;color:var(--text-dim);margin:0 0 12px">
+    {{ staged_items|length }} items found. Review each and accept or reject.
+  </p>
+
+  {% if staged_items %}
+  <div style="margin-bottom:12px;display:flex;gap:8px">
+    <button class="btn btn-primary btn-sm" onclick="batchAction('accept', {{ source.id }})">Accept All</button>
+    <button class="btn btn-ghost btn-sm" onclick="batchAction('reject', {{ source.id }})">Reject All</button>
+  </div>
+  {% endif %}
+
+  <div id="staged-items-list">
+    {% for item in staged_items %}
+    <div id="staged-item-{{ item.id }}" style="padding:8px 12px;margin-bottom:6px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <div style="flex:1;min-width:0">
+        <span class="badge" style="font-size:10px;margin-right:6px">{{ item.item_type }}</span>
+        {% if item.item_data.name %}
+          <span style="font-weight:600;font-size:13px">{{ item.item_data.name }}</span>
+        {% endif %}
+        {% if item.item_data.description %}
+          <span style="font-size:12px;color:var(--text-dim);display:block;margin-top:2px">{{ item.item_data.description[:120] }}</span>
+        {% endif %}
+        {% if item.item_data.entity_type %}
+          <span style="font-size:11px;color:var(--text-dim)">({{ item.item_data.entity_type }})</span>
+        {% endif %}
+        {% if item.item_data.timestamp_start %}
+          <span style="font-size:11px;color:var(--text-dim)">{{ item.item_data.timestamp_start }}</span>
+        {% endif %}
+        {% if item.item_data.entity_a %}
+          <span style="font-size:12px;color:var(--text-dim);display:block;margin-top:2px">{{ item.item_data.entity_a }} &rarr; {{ item.item_data.entity_b }}</span>
+        {% endif %}
+      </div>
+      <div style="display:flex;gap:4px;flex-shrink:0" class="staged-item-actions">
+        <button class="btn btn-primary btn-sm"
+                hx-post="/sources/ai/staged/{{ item.id }}/accept"
+                hx-target="#staged-item-{{ item.id }}"
+                hx-swap="outerHTML"
+                style="padding:4px 10px;font-size:11px">Accept</button>
+        <button class="btn btn-ghost btn-sm"
+                hx-post="/sources/ai/staged/{{ item.id }}/reject"
+                hx-target="#staged-item-{{ item.id }}"
+                hx-swap="outerHTML"
+                style="padding:4px 10px;font-size:11px">Reject</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if not staged_items %}
+  <div style="padding:16px;text-align:center;color:var(--text-dim)">No items were extracted from this source.</div>
+  {% endif %}
+</div>
+
+<script>
+function batchAction(action, sourceId) {
+  var items = document.querySelectorAll('[id^="staged-item-"]');
+  var ids = [];
+  items.forEach(function(el) {
+    var id = parseInt(el.id.replace('staged-item-', ''));
+    if (!isNaN(id)) ids.push(id);
+  });
+  if (ids.length === 0) return;
+
+  fetch('/sources/ai/staged/batch', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: action, ids: ids })
+  })
+  .then(function(r) { return r.text(); })
+  .then(function(text) {
+    var container = document.getElementById('staged-items-list');
+    while (container.firstChild) container.removeChild(container.firstChild);
+    var div = document.createElement('div');
+    div.textContent = text.replace(/<[^>]*>/g, '');
+    container.appendChild(div);
+  });
+}
+</script>

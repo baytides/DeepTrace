@@ -4,7 +4,7 @@ import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # Table creation order matters for foreign key references:
 # 1. schema_version (no FK)
@@ -23,7 +23,8 @@ SCHEMA_VERSION = 2
 # 14. case_review_items (no FK)
 # 15. attachments (no FK)
 # 16. attachment_links (FK -> attachments)
-# 17. ai_analyses (FK -> evidence_items, hypotheses)
+# 17. ai_analyses (expanded entity_type + mode for source AI)
+# 18. ai_staged_items (FK -> ai_analyses, sources)
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS schema_version (
@@ -203,9 +204,9 @@ CREATE TABLE IF NOT EXISTS attachment_links (
 
 CREATE TABLE IF NOT EXISTS ai_analyses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    entity_type TEXT NOT NULL CHECK(entity_type IN ('evidence', 'hypothesis', 'timeline')),
+    entity_type TEXT NOT NULL CHECK(entity_type IN ('evidence', 'hypothesis', 'timeline', 'source')),
     entity_id INTEGER NOT NULL,
-    mode TEXT NOT NULL CHECK(mode IN ('default', 'devils-advocate', 'red-hat', 'what-if', 'sensitivity')),
+    mode TEXT NOT NULL CHECK(mode IN ('default', 'devils-advocate', 'red-hat', 'what-if', 'sensitivity', 'classify', 'extract', 'cross-reference')),
     prompt TEXT NOT NULL,
     response TEXT NOT NULL,
     model TEXT NOT NULL,
@@ -214,6 +215,18 @@ CREATE TABLE IF NOT EXISTS ai_analyses (
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS ai_staged_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    analysis_id INTEGER REFERENCES ai_analyses(id) ON DELETE CASCADE,
+    source_id INTEGER REFERENCES sources(id),
+    item_type TEXT NOT NULL CHECK(item_type IN ('entity', 'evidence', 'event', 'relationship', 'suspect')),
+    item_data TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending', 'accepted', 'rejected')),
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_staged_status ON ai_staged_items(status);
+CREATE INDEX IF NOT EXISTS idx_staged_source ON ai_staged_items(source_id);
 CREATE INDEX IF NOT EXISTS idx_entities_type ON entities(entity_type);
 CREATE INDEX IF NOT EXISTS idx_entities_canonical ON entities(canonical_id);
 CREATE INDEX IF NOT EXISTS idx_events_timestamp ON events(timestamp_start);
