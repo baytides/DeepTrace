@@ -19,15 +19,46 @@ bp = Blueprint("sources", __name__)
 # ---------------------------------------------------------------------------
 
 _SOURCE_TYPE_MAP: dict[str, str] = {
+    # Official / government / legal
     ".gov": "official",
     ".mil": "official",
+    "un.org": "official",
+    "who.int": "official",
+    "interpol.int": "official",
+    "europa.eu": "official",
+    "courtlistener.com": "official",
+    "law.cornell.edu": "official",
+    # News organisations
     "reuters.com": "news",
     "apnews.com": "news",
+    "afp.com": "news",
     "bbc.com": "news",
     "bbc.co.uk": "news",
+    "abcnews.go.com": "news",
+    "abc.net.au": "news",
+    "cbsnews.com": "news",
+    "nbcnews.com": "news",
+    "pbs.org": "news",
+    "npr.org": "news",
     "nytimes.com": "news",
     "washingtonpost.com": "news",
+    "wsj.com": "news",
+    "theguardian.com": "news",
+    "latimes.com": "news",
+    "usatoday.com": "news",
     "cnn.com": "news",
+    "foxnews.com": "news",
+    "msnbc.com": "news",
+    "politico.com": "news",
+    "thehill.com": "news",
+    "propublica.org": "news",
+    "icij.org": "news",
+    # Academic / reference
+    ".edu": "academic",
+    "wikipedia.org": "academic",
+    "archive.org": "academic",
+    "snopes.com": "academic",
+    # Social media
     "facebook.com": "social",
     "twitter.com": "social",
     "x.com": "social",
@@ -35,6 +66,8 @@ _SOURCE_TYPE_MAP: dict[str, str] = {
     "instagram.com": "social",
     "tiktok.com": "social",
     "youtube.com": "social",
+    "medium.com": "social",
+    "substack.com": "social",
 }
 
 
@@ -105,7 +138,7 @@ def fetch_url():
             body_text = body_text or parsed.get("body_text", "")
 
         # Reliability rating
-        reliability, accuracy = _guess_reliability(url) if url else ("D", "5")
+        reliability, accuracy = _guess_reliability(url) if url else ("F", "6")
         source_type = _classify_source_type(url) if url else "manual"
         score = _admiralty_to_numeric(reliability, accuracy)
 

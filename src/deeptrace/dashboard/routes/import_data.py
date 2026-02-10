@@ -52,15 +52,58 @@ _KNOWN_SITES: dict[str, dict] = {}  # Populated after function definitions below
 
 
 _DOMAIN_RELIABILITY: dict[str, tuple[str, str]] = {
+    # Government / military / international organisations
     ".gov": ("B", "2"),
     ".mil": ("B", "2"),
+    ".edu": ("B", "3"),
+    "un.org": ("B", "2"),
+    "who.int": ("B", "2"),
+    "interpol.int": ("B", "2"),
+    "europa.eu": ("B", "2"),
+    # Wire services (highest editorial standards)
     "reuters.com": ("B", "2"),
     "apnews.com": ("B", "2"),
+    "afp.com": ("B", "2"),
+    # Major broadcasters / newspapers
     "bbc.com": ("B", "2"),
     "bbc.co.uk": ("B", "2"),
-    "nytimes.com": ("C", "3"),
-    "washingtonpost.com": ("C", "3"),
+    "abcnews.go.com": ("B", "3"),
+    "abc.net.au": ("B", "3"),
+    "cbsnews.com": ("B", "3"),
+    "nbcnews.com": ("B", "3"),
+    "pbs.org": ("B", "2"),
+    "npr.org": ("B", "2"),
+    "nytimes.com": ("B", "3"),
+    "washingtonpost.com": ("B", "3"),
+    "wsj.com": ("B", "3"),
+    "theguardian.com": ("B", "3"),
+    "latimes.com": ("C", "3"),
+    "usatoday.com": ("C", "3"),
     "cnn.com": ("C", "3"),
+    "foxnews.com": ("C", "3"),
+    "msnbc.com": ("C", "3"),
+    "politico.com": ("C", "3"),
+    "thehill.com": ("C", "3"),
+    # Investigative / legal
+    "courtlistener.com": ("B", "2"),
+    "law.cornell.edu": ("A", "2"),
+    "propublica.org": ("B", "3"),
+    "icij.org": ("B", "3"),
+    # Reference / archives
+    "wikipedia.org": ("C", "4"),
+    "archive.org": ("C", "3"),
+    "snopes.com": ("C", "3"),
+    # Social media (low default — content varies wildly)
+    "twitter.com": ("E", "5"),
+    "x.com": ("E", "5"),
+    "facebook.com": ("E", "5"),
+    "reddit.com": ("D", "5"),
+    "tiktok.com": ("E", "5"),
+    "instagram.com": ("E", "5"),
+    "youtube.com": ("D", "4"),
+    # Blogs / opinion
+    "medium.com": ("D", "4"),
+    "substack.com": ("D", "4"),
 }
 
 
@@ -79,7 +122,7 @@ def _guess_reliability(url: str) -> tuple[str, str]:
     for domain_fragment, (rel, cred) in _DOMAIN_RELIABILITY.items():
         if host.endswith(domain_fragment):
             return rel, cred
-    return ("D", "5")  # Cannot be judged
+    return ("F", "6")  # Cannot be judged (unknown source)
 
 
 # ---------------------------------------------------------------------------
