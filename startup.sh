@@ -7,11 +7,12 @@ echo "Starting DeepTrace on Azure..."
 VENV_DIR="/home/site/wwwroot/antenv"
 
 # Ensure a working virtual environment exists
-if [ -f "$VENV_DIR/bin/activate" ]; then
+# Check both that activate exists AND the python binary actually works
+if [ -f "$VENV_DIR/bin/activate" ] && "$VENV_DIR/bin/python" --version >/dev/null 2>&1; then
     echo "Using existing virtual environment..."
     source "$VENV_DIR/bin/activate"
 else
-    echo "Creating virtual environment (no working venv found)..."
+    echo "Creating fresh virtual environment (missing or broken)..."
     rm -rf "$VENV_DIR"
     python -m venv "$VENV_DIR"
     source "$VENV_DIR/bin/activate"
