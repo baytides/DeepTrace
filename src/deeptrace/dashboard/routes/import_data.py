@@ -418,7 +418,7 @@ def _unique_case_id(base_id: str) -> str:
 def import_page():
     """Show the unified import page."""
     current_case = session.get("current_case")
-    return render_template("import_data.html", current_case=current_case)
+    return render_template("case_redirect_info.html", current_case=current_case)
 
 
 @bp.route("/url/preview", methods=["POST"])
