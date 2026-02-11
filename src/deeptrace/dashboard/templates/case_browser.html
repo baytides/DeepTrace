@@ -481,6 +481,9 @@ function showCaseDetail(caseData) {
 
   detailHTML += '</div></div></div>';
 
+  // Store case data for import (global variable)
+  window.currentCaseData = caseData;
+
   // Import button (handle both FBI and NamUs)
   const importData = caseData.id ? "'" + escapeHtml(caseData.id) + "'" :
                      "null, '" + escapeHtml(caseData.case_id) + "', " + caseData.namus_id + ", '" + (caseData.case_type.includes('Missing') ? 'missing' : 'unidentified') + "'";
@@ -508,7 +511,7 @@ function importCase(fbiId, namusCaseId, namusId, caseType) {
 
   // Build request payload
   const payload = isFBI ?
-    { case_id: fbiId, source: 'fbi' } :
+    { case_id: fbiId, source: 'fbi', case_data: window.currentCaseData } :
     { case_id: namusCaseId, namus_id: namusId, case_type: caseType, source: 'namus' };
 
   fetch('/case-browser/api/import-case', {

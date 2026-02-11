@@ -202,10 +202,11 @@ def import_case():
             })
 
         elif source_type == "fbi":
-            # Fetch full case details from FBI
-            response = requests.get(f"{FBI_WANTED_API}/{case_id}", timeout=10)
-            response.raise_for_status()
-            case_data = response.json()
+            # FBI API doesn't support fetching individual cases by ID
+            # The full case data should be passed from the frontend
+            case_data = data.get("case_data")
+            if not case_data:
+                return jsonify({"status": "error", "error": "case_data required for FBI import"}), 400
 
             # Create source entry
             now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S")
